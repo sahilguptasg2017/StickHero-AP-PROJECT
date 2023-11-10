@@ -1,4 +1,4 @@
-package com.example.approject;
+package StickManHero;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

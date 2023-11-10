@@ -1,4 +1,4 @@
-module com.example.approject {
+module project.ap_project {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -7,9 +7,8 @@ module com.example.approject {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens com.example.approject to javafx.fxml;
-    exports com.example.approject;
+    opens StickManHero to javafx.fxml;
+    exports StickManHero;
 }

@@ -1,4 +1,4 @@
-package com.example.approject;
+package StickManHero;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
