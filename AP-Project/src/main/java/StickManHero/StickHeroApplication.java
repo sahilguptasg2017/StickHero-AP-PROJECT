@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class StickHeroApplication extends Application {
-    @Override
+    private int x;
+//    @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StickHeroApplication.class.getResource("StickHero.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
