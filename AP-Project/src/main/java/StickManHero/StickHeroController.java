@@ -11,4 +11,17 @@ public class StickHeroController {
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+    @FXML
+    protected void onStartButtonClick(){
+
+
+
+    }
+    @FXML
+    protected void onExitButtonClick(){
+
+
+    }
+
+
 }
