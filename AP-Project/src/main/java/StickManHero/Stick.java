@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Stick extends Application {
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 772;
+    private static final int HEIGHT = 772;
     private static final int RECTANGLE_WIDTH = 3;
     private static final int RECTANGLE_HEIGHT = 100;
     private static final int INCREMENT = 5; // Width increment on each step
@@ -21,7 +21,7 @@ public class Stick extends Application {
     private Timeline timeline;
 
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Continuous Rectangle Width Increase");
+        primaryStage.setTitle("Stick Increase");
 
         Pane root = new Pane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
