@@ -1,8 +1,10 @@
 package StickManHero;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Point3D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -10,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.effect.Light.Point;
 
 public class Stick extends Application {
     private static final int WIDTH = 980;
@@ -42,11 +45,19 @@ public class Stick extends Application {
         // Stop the timeline on mouse release
         scene.setOnMouseReleased(event -> {
             timeline.pause();
-            Rotate rotate = new Rotate();
-            rotate.setAngle(90);
-            rotate.setPivotX(rectangle.getX() );
-            rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
-            rectangle.getTransforms().add(rotate);
+//            Rotate rotate = new Rotate();
+//            rotate.setAngle(90);
+//            rotate.setPivotX(rectangle.getX() );
+//            rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
+//            rectangle.getTransforms().add(rotate);
+
+            RotateTransition rotate = new RotateTransition();
+            rotate.setDuration(Duration.millis(1000));
+            rotate.setAxis(Rotate.Z_AXIS);
+            rotate.setByAngle(90);
+            rotate.setCycleCount(1);
+            rotate.setNode(rectangle);
+            rotate.play();
         });
         primaryStage.setScene(scene);
         primaryStage.show();
