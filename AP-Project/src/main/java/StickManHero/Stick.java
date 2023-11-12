@@ -7,12 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Stick extends Application {
-    private static final int WIDTH = 772;
-    private static final int HEIGHT = 772;
+    private static final int WIDTH = 980;
+    private static final int HEIGHT = 780;
     private static final int RECTANGLE_WIDTH = 3;
     private static final int RECTANGLE_HEIGHT = 100;
     private static final int INCREMENT = 5; // Width increment on each step
@@ -39,10 +40,17 @@ public class Stick extends Application {
         scene.setOnMousePressed(event -> timeline.play());
 
         // Stop the timeline on mouse release
-        scene.setOnMouseReleased(event -> timeline.pause());
-
+        scene.setOnMouseReleased(event -> {
+            timeline.pause();
+            Rotate rotate = new Rotate();
+            rotate.setAngle(90);
+            rotate.setPivotX(rectangle.getX() );
+            rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
+            rectangle.getTransforms().add(rotate);
+        });
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     private void increaseHeight() {

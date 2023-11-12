@@ -10,14 +10,16 @@ import java.io.IOException;
 
 public class StickHeroApplication extends Application {
     private int x;
+    private static final int HEIGHT = 630;
+    private static final int WIDTH = 800;
 //    @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StickHeroApplication.class.getResource("StickHero.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 772, 772);
+        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle("StickHero Game");
 
         // Added Icon for the Application
-        Image icon = new Image("hero.png");
+        Image icon = new Image("icon.png");
         stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
