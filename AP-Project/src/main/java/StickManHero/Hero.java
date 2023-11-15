@@ -25,7 +25,7 @@ public class Hero extends Application{
         ImageView imageView = new ImageView(image);
         imageView.setX(0);
         imageView.setY(400);
-        root.getChildren().add(imageView);
+        imageView.resize(100,100);
         stage.setScene(scene);
         stage.show();
     }

@@ -15,12 +15,12 @@ public class StickHeroApplication extends Application {
 //    @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StickHeroApplication.class.getResource("StickHero.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("StickHero Game");
 
         // Added Icon for the Application
-//        Image icon = new Image("icon.png");
-//        stage.getIcons().add(icon);
+        Image icon = new Image("icon.png");
+        stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
     }
