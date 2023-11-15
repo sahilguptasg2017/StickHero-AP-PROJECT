@@ -18,7 +18,7 @@ public class Stick extends Application {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
     private static final int RECTANGLE_WIDTH = 3;
-    private static final int RECTANGLE_HEIGHT = 100;
+    private static final int RECTANGLE_HEIGHT = 50;
     private static final int INCREMENT = 5; // Width increment on each step
 
     private Rectangle rectangle;
@@ -45,19 +45,19 @@ public class Stick extends Application {
         // Stop the timeline on mouse release
         scene.setOnMouseReleased(event -> {
             timeline.pause();
-//            Rotate rotate = new Rotate();
-//            rotate.setAngle(90);
-//            rotate.setPivotX(rectangle.getX() );
-//            rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
-//            rectangle.getTransforms().add(rotate);
+            Rotate rotate = new Rotate();
+            rotate.setAngle(90);
+            rotate.setPivotX(rectangle.getX() );
+            rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
+            rectangle.getTransforms().add(rotate);
 
-            RotateTransition rotate = new RotateTransition();
-            rotate.setDuration(Duration.millis(1000));
-            rotate.setAxis(Rotate.Z_AXIS);
-            rotate.setByAngle(90);
-            rotate.setCycleCount(1);
-            rotate.setNode(rectangle);
-            rotate.play();
+//            RotateTransition rotate = new RotateTransition();
+//            rotate.setDuration(Duration.millis(1000));
+//            rotate.setAxis(Rotate.Z_AXIS);
+//            rotate.setByAngle(90);
+//            rotate.setCycleCount(1);
+//            rotate.setNode(rectangle);
+//            rotate.play();
         });
         primaryStage.setScene(scene);
         primaryStage.show();
