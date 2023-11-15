@@ -19,8 +19,8 @@ public class StickHeroApplication extends Application {
         stage.setTitle("StickHero Game");
 
         // Added Icon for the Application
-        Image icon = new Image("icon.png");
-        stage.getIcons().add(icon);
+//        Image icon = new Image("icon.png");
+//        stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
     }

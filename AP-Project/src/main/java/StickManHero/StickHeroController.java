@@ -5,24 +5,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
-public class StickHeroController {
+public class StickHeroController implements Controller {
     @FXML
     private Label welcomeText;
     private Label exitText ;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-    @FXML
-    protected void onStartButtonClick(){
+    public void onStartButtonClick(){
 
 
 
 
     }
     @FXML
-    private void showExitConfirmationDialog() {
+    public void showExitConfirmationDialog() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit Confirmation");
         alert.setHeaderText(null);
