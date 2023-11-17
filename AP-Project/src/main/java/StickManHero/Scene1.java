@@ -4,13 +4,13 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Scene1 extends Application {
-    private int isCollision;
+    private boolean isCollision;
 
-    public int getIsCollision() {
+    public boolean getIsCollision() {
         return isCollision;
     }
 
-    public void setIsCollision(int isCollision) {
+    public void setIsCollision(boolean isCollision) {
         this.isCollision = isCollision;
     }
 
