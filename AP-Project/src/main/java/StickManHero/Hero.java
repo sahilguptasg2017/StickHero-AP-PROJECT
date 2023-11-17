@@ -7,12 +7,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Hero extends Application {
+public class Hero extends Application implements MainHero {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
     private int score = 0;                  // score when hero jumps from one tower to another
     private int speed = 10;                 // speed at which hero runs
+    private int highScore = 0;
 
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
     public int getSpeed() {
         return speed;
     }
