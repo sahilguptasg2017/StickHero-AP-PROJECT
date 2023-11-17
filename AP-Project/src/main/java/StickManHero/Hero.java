@@ -10,6 +10,24 @@ import javafx.stage.Stage;
 public class Hero extends Application {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
+    private int score = 0;                  // score when hero jumps from one tower to another
+    private int speed = 10;                 // speed at which hero runs
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -25,6 +43,14 @@ public class Hero extends Application {
         root.getChildren().add(imageView);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void makeStick(){
+        //code
+    }
+
+    public void run(int distance){          // distance = stickLength
+        // code
     }
 
     public static void main(String[] args) {

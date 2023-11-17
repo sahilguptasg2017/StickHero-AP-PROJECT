@@ -12,13 +12,13 @@ public class Cherry {
         this.count = count;
     }
 
-    public void incrCount(int count){
+    public void incCount(int count){
 
         this.count += count ;
     }
 
 
-    public void decrCount(int count){
+    public void decCount(int count){
 
         this.count -= count ;
     }
