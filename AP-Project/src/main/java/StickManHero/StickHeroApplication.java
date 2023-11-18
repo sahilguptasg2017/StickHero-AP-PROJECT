@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// WE WILL USE THREADS TO CONTROL HERO AND OUTPUT ON THE SCREEN
+
 public class StickHeroApplication extends Application {
     private int x;
     private static final int HEIGHT = 630;

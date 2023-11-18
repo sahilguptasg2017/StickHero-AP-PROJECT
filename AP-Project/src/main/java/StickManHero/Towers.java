@@ -8,6 +8,24 @@ import java.util.Random;
 public class Towers extends Application {
     private int towerWidth = 0;
     private int towerHeight = 0;
+    private int distance = 0;               // distance of the new tower from end of the last tower
+    private int velocity = 0;
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
 
     public int getTowerHeight() {
         return towerHeight;
