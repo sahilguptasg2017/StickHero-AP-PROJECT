@@ -3,6 +3,7 @@ package StickManHero;
 import com.almasb.fxgl.entity.action.Action;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +15,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class StickHeroController implements Controller {
     @FXML
@@ -32,9 +38,22 @@ public class StickHeroController implements Controller {
 
 
     @FXML
-    public void onStartButtonClick(ActionEvent event) throws IOException {
+    public void onStartButtonClick(ActionEvent event) throws IOException  {
+        String path = "C:\\Users\\Dell\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
+
+        //Instantiating Media class
+        Media media = new Media(new File(path).toURI().toString());
+
+        //Instantiating MediaPlayer class
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        //by setting this property to true, the audio will be played
+        mediaPlayer.setAutoPlay(true);
+
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
         // Load the new scene
-        Parent newSceneRoot = FXMLLoader.load(getClass().getResource("Scene-1.fxml"));
+        Parent newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
