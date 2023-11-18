@@ -14,15 +14,24 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.effect.Light.Point;
 
+
 public class Stick extends Application {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
-    private static final int RECTANGLE_WIDTH = 3;
+    private static final int RECTANGLE_WIDTH = 1;
     private static final int RECTANGLE_HEIGHT = 50;
     private static final int INCREMENT = 5; // Width increment on each step
-
+    public int stickLength = 0;
     private Rectangle rectangle;
     private Timeline timeline;
+
+    public int getLength() {
+        return stickLength;
+    }
+
+    public void setLength(int stickLength) {
+        this.stickLength = stickLength;
+    }
 
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Stick Increase");
@@ -50,6 +59,7 @@ public class Stick extends Application {
             rotate.setPivotX(rectangle.getX() );
             rotate.setPivotY(rectangle.getY() + rectangle.getHeight());
             rectangle.getTransforms().add(rotate);
+            stickLength = (int)rectangle.getHeight();
 
 //            RotateTransition rotate = new RotateTransition();
 //            rotate.setDuration(Duration.millis(1000));

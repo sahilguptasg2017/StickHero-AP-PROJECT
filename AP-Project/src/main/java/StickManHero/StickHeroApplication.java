@@ -8,11 +8,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// WE WILL USE THREADS TO CONTROL HERO AND OUTPUT ON THE SCREEN
+
 public class StickHeroApplication extends Application {
     private int x;
     private static final int HEIGHT = 630;
     private static final int WIDTH = 800;
-//    @Override
+
+
+    //    @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StickHeroApplication.class.getResource("StickHero.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
