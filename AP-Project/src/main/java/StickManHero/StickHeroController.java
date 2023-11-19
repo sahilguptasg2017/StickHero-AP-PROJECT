@@ -39,18 +39,18 @@ public class StickHeroController implements Controller {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException  {
-        String path = "C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
-
-        //Instantiating Media class
-        Media media = new Media(new File(path).toURI().toString());
-
-        //Instantiating MediaPlayer class
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-        //by setting this property to true, the audio will be played
-        mediaPlayer.setAutoPlay(true);
-
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//        String path = "C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
+//
+//        //Instantiating Media class
+//        Media media = new Media(new File(path).toURI().toString());
+//
+//        //Instantiating MediaPlayer class
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//
+//        //by setting this property to true, the audio will be played
+//        mediaPlayer.setAutoPlay(true);
+//
+//        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         // Load the new scene
         Parent newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
