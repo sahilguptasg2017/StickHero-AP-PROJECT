@@ -39,7 +39,16 @@ public class StickHeroController implements Controller {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException  {
-        String path = "C:\\Users\\Dell\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
+
+        Hero new_player = new Hero();
+
+        Towers towers = new Towers() ;
+
+        Cherry new_cherry = new Cherry() ;
+
+        Stick new_stick = new Stick();
+
+        String path = "C:\\Users\\Dell\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\resources\\game_sound.mp3";
 
         //Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());
