@@ -39,7 +39,7 @@ public class StickHeroController implements Controller {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException  {
-        String path = "C:\\Users\\Dell\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
+        String path = "C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
 
         //Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());

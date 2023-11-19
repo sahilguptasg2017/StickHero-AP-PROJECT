@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 public class Scene1 extends Application {
     private boolean isCollision;
+    Hero hero;
 
     public boolean getIsCollision() {
         return isCollision;
