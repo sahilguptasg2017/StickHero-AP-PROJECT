@@ -1,8 +1,7 @@
 package StickManHero;
 
 import com.almasb.fxgl.entity.action.Action;
-import javafx.animation.FadeTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,17 +31,20 @@ import java.util.Random;
 public class StickHeroController implements Controller {
     @FXML
     private static Label welcomeText;
-    private static Label exitText ;
+    private static Label exitText;
 
+    private static Stage stage;
+    private static Scene scene;
+    private static Parent root;
+    private static int INT_MAX = 2000;
 
-    private static Stage stage ;
+    private static Parent newSceneRoot;
+    private static ArrayList<Rectangle> rectangles;
+    private static int current_rectangle = 0;
+    private static Rectangle stick;
+    private static boolean isMousePressed = false;
 
-    private static Scene scene ;
-
-    private static Parent root ;
-
-    private static int INT_MAX = 2000 ;
-
+    private   Timeline timeline ;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -90,25 +92,74 @@ public class StickHeroController implements Controller {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    private static  Parent newSceneRoot ;
 
 
-    private static  ArrayList<Rectangle> rectangles ;
+    public Timeline getTimeline() {
+        return timeline;
+    }
 
-    private static int current_rectangle = 0 ;
+    public void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    @FXML
+    public void clickmouse(javafx.scene.input.MouseEvent event) {
+
+        isMousePressed = true;
+        // Call a method to increase the size of the stick
+        increaseStickSize();
+    }
+
+    @FXML
+    public void unclickmouse(javafx.scene.input.MouseEvent event) {
+        isMousePressed = false;
+        // Stop the timeline to prevent further growth
+        if (timeline != null) {
+            timeline.stop();
+        }
+        // Call a method to make the stick horizontal
+        makeStickHorizontal();
+    }
+
+    private void increaseStickSize() {
+        // Set up a timeline to increase the stick size continuously
+        timeline = new Timeline(new KeyFrame(Duration.millis(16), event -> {
+            double newHeight = stick.getHeight() + 2; // Adjust the rate of growth as needed
+            stick.setHeight(newHeight);
+
+            double newY = stick.getY() - 2; // Adjust the rate of movement as needed
+            stick.setY(newY);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+
+
+
+    private void makeStickHorizontal() {
+        // Add animation to make the stick horizontal
+        Rotate r1 = new Rotate(0, stick.getX(), stick.getY() + stick.getHeight());
+        stick.getTransforms().clear();
+        stick.getTransforms().add(r1);
+        KeyValue k1 = new KeyValue(r1.angleProperty(), 90);
+        KeyFrame k2 = new KeyFrame(Duration.millis(300), k1);
+        Timeline t1 = new Timeline(k2);
+        t1.play();
+    }
 
 
     @FXML
-    public void onStartButtonClick(ActionEvent event) throws IOException  {
+    public void onStartButtonClick(ActionEvent event) throws IOException {
         String path = "AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
 
-        //Instantiating Media class
+        // Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());
 
-        //Instantiating MediaPlayer class
+        // Instantiating MediaPlayer class
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
-        //by setting this property to true, the audio will be played
+        // by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
 
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -144,70 +195,52 @@ public class StickHeroController implements Controller {
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
 
-
-//        Rectangle r1 = new Rectangle(100,200, Color.BLACK) ;
-//
-//        Group G1  = new Group() ;
-//
-//        G1.getChildren().add(r1) ;
-//
-//        ((Pane)newSceneRoot).getChildren().add(G1) ;
-
-
-
         game_maker();
 
-
-
+        // Set separate event handlers for mouse pressed and released
 
     }
 
-    public void game_maker(){
+    public void game_maker() {
+        rectangles = new ArrayList<>();
 
-        rectangles = new ArrayList<Rectangle>() ;
-
-        Group G1 = new Group() ;
-        for(int i=0;i<getINT_MAX();i++){
-            Random random = new Random() ;
-            int width = 40+random.nextInt(100) ;
-            Rectangle r = new Rectangle(width,200,Color.BLACK) ;
-            if(i == 0){
+        Group G1 = new Group();
+        for (int i = 0; i < getINT_MAX(); i++) {
+            Random random = new Random();
+            int width = 40 + random.nextInt(100);
+            if (i == 0) {
+                Rectangle r = new Rectangle(100, 200, Color.BLACK);
                 r.setX(10);
-
                 r.setY(456);
-            }
-            else {
+                rectangles.add(r);
+                G1.getChildren().add(r);
+            } else {
+                Rectangle r = new Rectangle(width, 200, Color.BLACK);
                 r.setX(i * 300);
                 r.setY(456);
+                rectangles.add(r);
+                G1.getChildren().add(r);
             }
-            rectangles.add(r) ;
-            G1.getChildren().add(r) ;
         }
 
-        Hero h1 = new Hero() ;
+        Hero h1 = new Hero();
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
-        h1.setX(10) ;
-        G1.getChildren().add(h1) ;
+        h1.setX(15 + rectangles.get(0).getWidth() / 2);
+        G1.getChildren().add(h1);
 
-        Rectangle stick = new Rectangle() ;
+        stick = new Rectangle();
 
-        stick.setWidth(10);
+        stick.setWidth(3);
         stick.setHeight(100);
-        stick.setY(453) ;
-        stick.setX(40);
+        stick.setY(356);
+        stick.setX(56 + rectangles.get(0).getWidth() / 2);
 
+        G1.getChildren().add(stick);
 
-        G1.getChildren().add(stick) ;
-
-
-
-        ((Pane)newSceneRoot).getChildren().add(G1) ;
-
-
+        ((Pane) newSceneRoot).getChildren().add(G1);
     }
-
 
     @FXML
     public void showExitConfirmationDialog() {
@@ -237,8 +270,5 @@ public class StickHeroController implements Controller {
 
     @Override
     public void onStartButtonClick() throws IOException {
-
     }
-
-
 }
