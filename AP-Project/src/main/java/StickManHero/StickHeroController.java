@@ -203,23 +203,28 @@ public class StickHeroController implements Controller {
 
     public void game_maker() {
         rectangles = new ArrayList<>();
-
+        ArrayList<Towers> arr = new ArrayList<>();
+        Towers t;
         Group G1 = new Group();
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
             if (i == 0) {
-                Rectangle r = new Rectangle(100, 200, Color.BLACK);
-                r.setX(10);
-                r.setY(456);
-                rectangles.add(r);
-                G1.getChildren().add(r);
+//                Rectangle r = new Rectangle(100, 200, Color.BLACK);
+                t = new Towers(100, 200);
+                t.setX(10);
+                t.setY(456);
+                arr.add(t);
+//                rectangles.add(r);
+                G1.getChildren().add(t);
             } else {
-                Rectangle r = new Rectangle(width, 200, Color.BLACK);
-                r.setX(i * 300);
-                r.setY(456);
-                rectangles.add(r);
-                G1.getChildren().add(r);
+//                Rectangle r = new Rectangle(width, 200, Color.BLACK);
+                t = new Towers(width, 200);
+                t.setX(i * 300);
+                t.setY(456);
+//                rectangles.add(r);
+                arr.add(t);
+                G1.getChildren().add(t);
             }
         }
 
@@ -227,7 +232,8 @@ public class StickHeroController implements Controller {
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
-        h1.setX(15 + rectangles.get(0).getWidth() / 2);
+//        h1.setX(15 + rectangles.get(0).getWidth() / 2);
+        h1.setX(15 + arr.get(0).getWidth() / 2);
         G1.getChildren().add(h1);
 
         stick = new Rectangle();
@@ -235,7 +241,8 @@ public class StickHeroController implements Controller {
         stick.setWidth(3);
         stick.setHeight(100);
         stick.setY(356);
-        stick.setX(56 + rectangles.get(0).getWidth() / 2);
+//        stick.setX(56 + rectangles.get(0).getWidth() / 2);
+        stick.setX(56 + arr.get(0).getWidth() / 2);
 
         G1.getChildren().add(stick);
 
