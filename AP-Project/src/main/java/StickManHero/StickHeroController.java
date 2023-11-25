@@ -7,12 +7,16 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
@@ -21,20 +25,77 @@ import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class StickHeroController implements Controller {
     @FXML
-    private Label welcomeText;
-    private Label exitText ;
+    private static Label welcomeText;
+    private static Label exitText ;
 
 
-    private Stage stage ;
+    private static Stage stage ;
 
-    private Scene scene ;
+    private static Scene scene ;
 
-    private Parent root ;
+    private static Parent root ;
 
+    private static int INT_MAX = 2000 ;
+
+    public int getINT_MAX() {
+        return INT_MAX;
+    }
+
+    public void setExitText(Label exitText) {
+        this.exitText = exitText;
+    }
+
+    public Label getExitText() {
+        return exitText;
+    }
+
+    public void setINT_MAX(int INT_MAX) {
+        this.INT_MAX = INT_MAX;
+    }
+
+    public Label getWelcomeText() {
+        return welcomeText;
+    }
+
+    public void setWelcomeText(Label welcomeText) {
+        this.welcomeText = welcomeText;
+    }
+
+    public Parent getRoot() {
+        return root;
+    }
+
+    public void setRoot(Parent root) {
+        this.root = root;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+    private static  Parent newSceneRoot ;
+
+
+    private static  ArrayList<Rectangle> rectangles ;
+
+    private static int current_rectangle = 0 ;
 
 
     @FXML
@@ -53,7 +114,7 @@ public class StickHeroController implements Controller {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         // Load the new scene
-        Parent newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
+        newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -84,21 +145,68 @@ public class StickHeroController implements Controller {
         sequentialTransition.play();
 
 
+//        Rectangle r1 = new Rectangle(100,200, Color.BLACK) ;
+//
+//        Group G1  = new Group() ;
+//
+//        G1.getChildren().add(r1) ;
+//
+//        ((Pane)newSceneRoot).getChildren().add(G1) ;
 
 
 
-
-
-
-
-
-
+        game_maker();
 
 
 
 
     }
 
+    public void game_maker(){
+
+        rectangles = new ArrayList<Rectangle>() ;
+
+        Group G1 = new Group() ;
+        for(int i=0;i<getINT_MAX();i++){
+            Random random = new Random() ;
+            int width = 40+random.nextInt(100) ;
+            Rectangle r = new Rectangle(width,200,Color.BLACK) ;
+            if(i == 0){
+                r.setX(10);
+
+                r.setY(456);
+            }
+            else {
+                r.setX(i * 300);
+                r.setY(456);
+            }
+            rectangles.add(r) ;
+            G1.getChildren().add(r) ;
+        }
+
+        Hero h1 = new Hero() ;
+        h1.setFitWidth(40);
+        h1.setFitHeight(50);
+        h1.setY(406);
+        h1.setX(10) ;
+        G1.getChildren().add(h1) ;
+
+        Rectangle stick = new Rectangle() ;
+
+        stick.setWidth(10);
+        stick.setHeight(100);
+        stick.setY(453) ;
+        stick.setX(40);
+
+
+        G1.getChildren().add(stick) ;
+
+
+
+        ((Pane)newSceneRoot).getChildren().add(G1) ;
+
+
+    }
 
 
     @FXML

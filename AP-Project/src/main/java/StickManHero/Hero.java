@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Hero implements MainHero {
+public class Hero extends ImageView implements MainHero {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
     private int score = 0;                  // score when hero jumps from one tower to another
@@ -66,5 +66,11 @@ public class Hero implements MainHero {
     public static void main(String[] args) {
 //        launch();
     }
+
+    Hero(){
+        Image hero = new Image("hero_style1.png") ;
+        setImage(hero);
+    }
+
 }
 

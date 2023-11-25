@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,7 +16,7 @@ import javafx.util.Duration;
 import javafx.scene.effect.Light.Point;
 
 
-public class Stick extends Application {
+public class Stick extends ImageView {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
     private static final int RECTANGLE_WIDTH = 1;
@@ -83,7 +84,7 @@ public class Stick extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
 }
