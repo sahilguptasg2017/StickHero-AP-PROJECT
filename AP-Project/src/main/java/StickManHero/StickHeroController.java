@@ -110,6 +110,12 @@ public class StickHeroController implements Controller {
         increaseStickSize();
     }
 
+
+
+
+
+    private int curr_rectangle  = 0;
+
     @FXML
     public void unclickmouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
@@ -119,7 +125,35 @@ public class StickHeroController implements Controller {
         }
         // Call a method to make the stick horizontal
         makeStickHorizontal();
+
+        curr_rectangle ++ ;
+        for (Rectangle rectangle : rectangles) {
+            double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+            TranslateTransition transition = new TranslateTransition(Duration.millis(1000),rectangle) ;
+            transition.setToX(newX);
+            transition.play();
+        }
+
+        double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(1000),stick) ;
+        transition_1.setToX(sticknewX);
+        transition_1.play();
+
+
+
+
     }
+
+    private void takebackrectangeles(){
+
+
+
+
+
+    }
+
+
+
 
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
@@ -227,15 +261,15 @@ public class StickHeroController implements Controller {
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
-        h1.setX(15 + rectangles.get(0).getWidth() / 2);
+        h1.setX(9 + rectangles.get(0).getWidth() / 2);
         G1.getChildren().add(h1);
 
         stick = new Rectangle();
 
         stick.setWidth(3);
-        stick.setHeight(100);
-        stick.setY(356);
-        stick.setX(56 + rectangles.get(0).getWidth() / 2);
+        stick.setHeight(1);
+        stick.setY(455);
+        stick.setX(46 + rectangles.get(0).getWidth() / 2);
 
         G1.getChildren().add(stick);
 
