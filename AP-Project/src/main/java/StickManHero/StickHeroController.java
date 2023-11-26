@@ -46,7 +46,7 @@ public class StickHeroController implements Controller {
     private static boolean isMousePressed = false;
 
     private   Timeline timeline ;
-    public ArrayList<Towers> arr;
+    public static ArrayList<Towers> arr;
     public Group G1;
     public int getINT_MAX() {
         return INT_MAX;
@@ -124,9 +124,10 @@ public class StickHeroController implements Controller {
             game_maker();
         }
         // Call a method to make the stick horizontal
+        timeline.pause();
         makeStickHorizontal();
         translateTowers();
-        resetStick();
+//        resetStick();
     }
     private void translateTowers() {
         Towers t;
@@ -269,14 +270,14 @@ public class StickHeroController implements Controller {
         stick = new Rectangle();
 
         stick.setWidth(3);
-        stick.setHeight(100);
-        stick.setY(356);
+        stick.setHeight(0);
+        stick.setY(456);
 //        stick.setX(56 + rectangles.get(0).getWidth() / 2);
         stick.setX(56 + arr.get(0).getWidth() / 2);
 
         G1.getChildren().add(stick);
         ((Pane) newSceneRoot).getChildren().add(G1);
-        ((Pane) newSceneRoot).getChildren().add(G1);
+//        ((Pane) newSceneRoot).getChildren().add(G1);
     }
 
     @FXML
