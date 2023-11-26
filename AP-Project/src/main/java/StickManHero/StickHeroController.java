@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
@@ -45,6 +46,8 @@ public class StickHeroController implements Controller {
     private static boolean isMousePressed = false;
 
     private   Timeline timeline ;
+    public ArrayList<Towers> arr;
+    public Group G1;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -117,8 +120,36 @@ public class StickHeroController implements Controller {
         if (timeline != null) {
             timeline.stop();
         }
+        if (arr == null){
+            game_maker();
+        }
         // Call a method to make the stick horizontal
         makeStickHorizontal();
+        translateTowers();
+        resetStick();
+    }
+    private void translateTowers() {
+        Towers t;
+        for (int i = 0; i < arr.size(); ++i) {
+            t = arr.get(i);
+            if (i == 0) {
+                translateTower(t, -290);
+            } else {
+                translateTower(t, -300);
+            }
+        }
+    }
+
+    private void translateTower(Towers tower, double deltaX) {
+        TranslateTransition translate = new TranslateTransition(Duration.seconds(5), tower);
+        translate.setByX(deltaX);
+        translate.play();
+    }
+    private void resetStick() {
+        stick.setWidth(3);
+        stick.setHeight(0);
+        stick.setY(456);
+        stick.setX(56 + arr.get(0).getWidth() / 2);
     }
 
     private void increaseStickSize() {
@@ -203,9 +234,9 @@ public class StickHeroController implements Controller {
 
     public void game_maker() {
         rectangles = new ArrayList<>();
-        ArrayList<Towers> arr = new ArrayList<>();
+        arr = new ArrayList<>();
         Towers t;
-        Group G1 = new Group();
+        G1 = new Group();
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
@@ -235,7 +266,6 @@ public class StickHeroController implements Controller {
 //        h1.setX(15 + rectangles.get(0).getWidth() / 2);
         h1.setX(15 + arr.get(0).getWidth() / 2);
         G1.getChildren().add(h1);
-
         stick = new Rectangle();
 
         stick.setWidth(3);
@@ -245,7 +275,7 @@ public class StickHeroController implements Controller {
         stick.setX(56 + arr.get(0).getWidth() / 2);
 
         G1.getChildren().add(stick);
-
+        ((Pane) newSceneRoot).getChildren().add(G1);
         ((Pane) newSceneRoot).getChildren().add(G1);
     }
 

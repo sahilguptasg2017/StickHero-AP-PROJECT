@@ -68,6 +68,12 @@ public class Towers extends Rectangle {
     public void setY(int y) {
         super.setTranslateY(y);
     }
+    public int getX(int x){
+        return (int) super.getX();
+    }
+    public int getY(int y){
+        return (int)super.getY();
+    }
 
 //    public static void main(String[] args) {
 //        launch();
