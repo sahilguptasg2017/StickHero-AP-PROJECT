@@ -168,7 +168,7 @@ public class StickHeroController implements Controller {
 
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
-        timeline = new Timeline(new KeyFrame(Duration.millis(16), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(8), event -> {
             double newHeight = stick.getHeight() + 2; // Adjust the rate of growth as needed
             stick.setHeight(newHeight);
 
