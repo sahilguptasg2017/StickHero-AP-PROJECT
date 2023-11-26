@@ -129,13 +129,13 @@ public class StickHeroController implements Controller {
         curr_rectangle ++ ;
         for (Rectangle rectangle : rectangles) {
             double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-            TranslateTransition transition = new TranslateTransition(Duration.millis(1000),rectangle) ;
+            TranslateTransition transition = new TranslateTransition(Duration.millis(2000),rectangle) ;
             transition.setToX(newX);
             transition.play();
         }
 
-        double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(1000),stick) ;
+        double sticknewX = stick.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(2000),stick) ;
         transition_1.setToX(sticknewX);
         transition_1.play();
 
