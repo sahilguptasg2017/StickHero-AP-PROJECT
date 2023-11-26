@@ -112,7 +112,7 @@ public class StickHeroController implements Controller {
 
 
 
-
+    private static Group G1 ;
 
     private int curr_rectangle  = 0;
 
@@ -138,6 +138,17 @@ public class StickHeroController implements Controller {
         TranslateTransition transition_1 = new TranslateTransition(Duration.millis(1000),stick) ;
         transition_1.setToX(sticknewX);
         transition_1.play();
+
+        Rectangle new_stick = new Rectangle() ;
+
+        new_stick.setWidth(3);
+        new_stick.setHeight(1);
+        new_stick.setY(455);
+        new_stick.setX(46 + rectangles.get(0).getWidth() / 2);
+
+        G1.getChildren().add(new_stick) ;
+
+        stick = new_stick ;
 
 
 
@@ -238,7 +249,7 @@ public class StickHeroController implements Controller {
     public void game_maker() {
         rectangles = new ArrayList<>();
 
-        Group G1 = new Group();
+        G1 = new Group();
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
