@@ -135,10 +135,12 @@ public class StickHeroController implements Controller {
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
         if (x2 > x1+w1+l || x2 + w2 < x1+w1+l){
-            double heronewX = l;
+            double heronewX = l + 40;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
             move_hero.setByX(heronewX);
+            move_hero.setOnFinished(endEvent->GameOver());
             move_hero.play();
+//            System.exit(0);
         }else{
             double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
@@ -148,7 +150,18 @@ public class StickHeroController implements Controller {
             move_hero.play();
         }
     }
-
+    private void GameOver(){
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
+        translate.setToY(300f);
+//            translate.setCycleCount(1);
+        translate.setAutoReverse(true);
+        RotateTransition rotate = new RotateTransition(Duration.millis(1000));
+        rotate.setByAngle(360f);
+//        rotate.setCycleCount(5);
+        PauseTransition pause = new PauseTransition(Duration.millis(5000));
+        ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
+        seqT.play();
+    }
     private void transitions(){
         for (Rectangle rectangle : rectangles) {
             double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
