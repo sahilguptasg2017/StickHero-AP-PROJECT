@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#clickmouse" onMouseReleased="#unclickmouse" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StickManHero.StickHeroController">
    <children>
-      <ImageView blendMode="SRC_ATOP" fitHeight="661.0" fitWidth="3800.0" layoutX="6.0" layoutY="45.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+      <ImageView blendMode="SRC_ATOP" fitHeight="661.0" fitWidth="3800.0" layoutX="6.0" layoutY="45.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleY="2.0">
          <image>
             <Image url="@../background.jpg" />
          </image>
       </ImageView>
+      <Label fx:id="Score" layoutX="748.0" layoutY="25.0" prefHeight="40.0" prefWidth="95.0" text="Score:">
+         <font>
+            <Font name="Arial" size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

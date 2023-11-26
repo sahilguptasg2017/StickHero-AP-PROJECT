@@ -33,18 +33,17 @@ public class StickHeroController implements Controller {
     @FXML
     private static Label welcomeText;
     private static Label exitText;
+    @FXML
+    public Label Score;
 
     private static Stage stage;
     private static Scene scene;
     private static Parent root;
     private static int INT_MAX = 2000;
-
     private static Parent newSceneRoot;
     private static ArrayList<Rectangle> rectangles;
-    private static int current_rectangle = 0;
     private static Rectangle stick;
     private static boolean isMousePressed = false;
-
     private   Timeline timeline ;
     public int getINT_MAX() {
         return INT_MAX;
@@ -140,6 +139,7 @@ public class StickHeroController implements Controller {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->GameOver());
             move_hero.play();
+            // game-over
 //            System.exit(0);
         }else{
             double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
@@ -148,16 +148,15 @@ public class StickHeroController implements Controller {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->transitions());
             move_hero.play();
+            Score.setText("Score :" + curr_rectangle);
         }
     }
     private void GameOver(){
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         translate.setToY(300f);
-//            translate.setCycleCount(1);
         translate.setAutoReverse(true);
         RotateTransition rotate = new RotateTransition(Duration.millis(1000));
         rotate.setByAngle(360f);
-//        rotate.setCycleCount(5);
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
