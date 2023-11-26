@@ -2,15 +2,17 @@ package StickManHero;
 
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.util.Random;
 
-public class Towers extends Application {
+public class Towers extends Rectangle {
     private int towerWidth = 0;
     private int towerHeight = 0;
     private int distance = 0;               // distance of the new tower from end of the last tower
     private int velocity = 0;
-
+    Color c = Color.BLACK;
     public int getDistance() {
         return distance;
     }
@@ -46,14 +48,34 @@ public class Towers extends Application {
     public void generateTowers(){
 
     }
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Random towers");
-        Pane root = new Pane();
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        stage.setTitle("Random towers");
+//        Pane root = new Pane();
+//
+//    }
 
+    public Towers(int width, int height) {
+        super(width, height, Color.BLACK);
+        towerHeight = height;
+        towerWidth = width;
     }
 
-    public static void main(String[] args) {
-        launch();
+    public void setX(int x) {
+        super.setTranslateX(x);
     }
+
+    public void setY(int y) {
+        super.setTranslateY(y);
+    }
+    public int getX(int x){
+        return (int) super.getX();
+    }
+    public int getY(int y){
+        return (int)super.getY();
+    }
+
+//    public static void main(String[] args) {
+//        launch();
+//    }
 }
