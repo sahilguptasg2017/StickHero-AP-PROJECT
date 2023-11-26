@@ -4,6 +4,7 @@ import com.almasb.fxgl.entity.action.Action;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -113,6 +114,7 @@ public class StickHeroController implements Controller {
 
 
     private static Group G1 ;
+    private static Hero h1 ;
 
     private int curr_rectangle  = 0;
 
@@ -127,15 +129,35 @@ public class StickHeroController implements Controller {
         makeStickHorizontal();
 
         curr_rectangle ++ ;
+
+        double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
+        TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
+       // System.out.println("sw");
+        move_hero.setByX(heronewX);
+        move_hero.setOnFinished(event1->transitions());
+        move_hero.play();
+
+
+
+
+
+    }
+
+    private void transitions(){
         for (Rectangle rectangle : rectangles) {
             double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-            TranslateTransition transition = new TranslateTransition(Duration.millis(2000),rectangle) ;
+            TranslateTransition transition = new TranslateTransition(Duration.millis(1000),rectangle) ;
             transition.setToX(newX);
             transition.play();
         }
 
-        double sticknewX = stick.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(2000),stick) ;
+        double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth()  - rectangles.get(curr_rectangle).getWidth() ;
+        TranslateTransition transition_2 = new TranslateTransition(Duration.millis(1000),h1) ;
+        transition_2.setToX(heronew1X);
+        transition_2.play();
+
+        double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(1000),stick) ;
         transition_1.setToX(sticknewX);
         transition_1.play();
 
@@ -149,22 +171,7 @@ public class StickHeroController implements Controller {
         G1.getChildren().add(new_stick) ;
 
         stick = new_stick ;
-
-
-
-
     }
-
-    private void takebackrectangeles(){
-
-
-
-
-
-    }
-
-
-
 
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
@@ -268,7 +275,7 @@ public class StickHeroController implements Controller {
             }
         }
 
-        Hero h1 = new Hero();
+        h1 = new Hero();
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
@@ -280,7 +287,7 @@ public class StickHeroController implements Controller {
         stick.setWidth(3);
         stick.setHeight(1);
         stick.setY(455);
-        stick.setX(46 + rectangles.get(0).getWidth() / 2);
+        stick.setX(58 + rectangles.get(0).getWidth() / 2);
 
         G1.getChildren().add(stick);
 
