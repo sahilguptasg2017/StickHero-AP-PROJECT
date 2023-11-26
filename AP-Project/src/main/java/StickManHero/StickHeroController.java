@@ -116,7 +116,7 @@ public class StickHeroController implements Controller {
     private static Group G1 ;
     private static Hero h1 ;
 
-    private int curr_rectangle  = 0;
+    private static int curr_rectangle  = 0;
 
     @FXML
     public void unclickmouse(javafx.scene.input.MouseEvent event) {
@@ -129,18 +129,24 @@ public class StickHeroController implements Controller {
         makeStickHorizontal();
 
         curr_rectangle ++ ;
-
-        double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
-        TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
-       // System.out.println("sw");
-        move_hero.setByX(heronewX);
-        move_hero.setOnFinished(event1->transitions());
-        move_hero.play();
-
-
-
-
-
+        double x1 = rectangles.get(curr_rectangle - 1).getX();
+        double w1 = rectangles.get(curr_rectangle - 1).getWidth();
+        double x2 = rectangles.get(curr_rectangle).getX() ;
+        double w2 = rectangles.get(curr_rectangle).getWidth();
+        double l = stick.getHeight();
+        if (x2 > x1+w1+l || x2 + w2 < x1+w1+l){
+            double heronewX = l;
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
+            move_hero.setByX(heronewX);
+            move_hero.play();
+        }else{
+            double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
+            // System.out.println("sw");
+            move_hero.setByX(heronewX);
+            move_hero.setOnFinished(event1->transitions());
+            move_hero.play();
+        }
     }
 
     private void transitions(){

@@ -16,7 +16,7 @@ import javafx.util.Duration;
 import javafx.scene.effect.Light.Point;
 
 
-public class Stick extends Rectangle {
+public class Stick extends Application {
     private static final int WIDTH = 980;
     private static final int HEIGHT = 780;
     private static final int RECTANGLE_WIDTH = 1;
@@ -84,7 +84,7 @@ public class Stick extends Rectangle {
 
     }
 
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
