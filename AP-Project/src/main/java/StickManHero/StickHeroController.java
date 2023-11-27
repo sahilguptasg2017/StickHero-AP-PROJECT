@@ -62,6 +62,7 @@ public class StickHeroController implements Controller {
     static boolean isFlipped = false;
     static int onTower = 1;
     public StickHeroController controller;
+    static int keyEnabler = 1;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -126,6 +127,8 @@ public class StickHeroController implements Controller {
 
         isMousePressed = true;
         // Call a method to increase the size of the stick
+// Note-- Max length of the stick can be 440 so that hero will never go to third tower
+        // update this
         increaseStickSize();
 
     }
@@ -134,7 +137,7 @@ public class StickHeroController implements Controller {
         isKeyPressed = true;
         if (event.getCode() == KeyCode.SPACE) {
             System.out.println("yes");
-            if (onTower == 0){
+            if (keyEnabler==1 && onTower == 0){
                 if(!isFlipped){
                     h1.setY(h1.getY() + 53);
                     h1.setScaleY(h1.getScaleY() * -1);
@@ -187,6 +190,7 @@ public class StickHeroController implements Controller {
         double l = stick.getHeight();
         // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
+            keyEnabler = 0;
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
@@ -196,7 +200,7 @@ public class StickHeroController implements Controller {
             // game-over
 //            System.exit(0);
         }else{
-    //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
+        //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
             double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             // System.out.println("sw");
@@ -263,6 +267,7 @@ public class StickHeroController implements Controller {
         curr_rectangle = 0;
         onTower = 1;
         isFlipped = false;
+        keyEnabler = 1;
         game_maker();
 
         // To Remove the window where myScore label is there
@@ -271,18 +276,18 @@ public class StickHeroController implements Controller {
     private void transitions(){
         for (Rectangle rectangle : rectangles) {
             double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-            TranslateTransition transition = new TranslateTransition(Duration.millis(1000),rectangle) ;
+            TranslateTransition transition = new TranslateTransition(Duration.millis(500),rectangle) ;
             transition.setToX(newX);
             transition.play();
         }
 
         double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth() ;
-        TranslateTransition transition_2 = new TranslateTransition(Duration.millis(1000),h1) ;
+        TranslateTransition transition_2 = new TranslateTransition(Duration.millis(500),h1) ;
         transition_2.setToX(heronew1X);
         transition_2.play();
 
         double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(1000),stick) ;
+        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(500),stick) ;
         transition_1.setToX(sticknewX);
         transition_1.play();
 
