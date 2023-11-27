@@ -58,6 +58,7 @@ public class StickHeroController implements Controller {
     private   Timeline timeline ;
     static int heroScore = 0;
     static int highScore = 0;
+    static boolean isFlipped = false;
     public StickHeroController controller;
     public int getINT_MAX() {
         return INT_MAX;
@@ -137,7 +138,16 @@ public class StickHeroController implements Controller {
         isKeyPressed = true;
         if (event.getCode() == KeyCode.SPACE) {
             System.out.println("yes");
-            h1.setScaleY(h1.getScaleY() * -1);
+            if(!isFlipped){
+                h1.setY(h1.getY() + 53);
+                h1.setScaleY(h1.getScaleY() * -1);
+                isFlipped = true;
+            }else{
+                h1.setY(h1.getY() - 53);
+                h1.setScaleY(h1.getScaleY() * -1);
+                isFlipped = false;
+            }
+
         }
     }
 
