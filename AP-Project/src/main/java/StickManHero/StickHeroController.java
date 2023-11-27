@@ -5,6 +5,7 @@ import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -17,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -41,7 +44,8 @@ public class StickHeroController implements Controller {
     public Label Score;
     @FXML
     public Label myScore;
-
+    @FXML
+    private AnchorPane anchorPane;
 
     private static Stage stage;
     private static Scene scene;
@@ -54,6 +58,7 @@ public class StickHeroController implements Controller {
     private   Timeline timeline ;
     static int heroScore = 0;
     static int highScore = 0;
+    public StickHeroController controller;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -103,7 +108,7 @@ public class StickHeroController implements Controller {
     }
 
     private static Group G1 ;
-    private static Hero h1 ;
+    public static Hero h1 ;
     public Timeline getTimeline() {
         return timeline;
     }
@@ -112,20 +117,29 @@ public class StickHeroController implements Controller {
         this.timeline = timeline;
     }
     private boolean isKeyPressed = false;
-    @FXML
-    public void flipHero(javafx.scene.input.KeyEvent event){
-        if(event.getCode() == KeyCode.SPACE){
-            h1.setScaleY(h1.getScaleY() * -1);
-        }
-    }
+//    @FXML
+//    public void flipHero(javafx.scene.input.KeyEvent event){
+//        if(event.getCode() == KeyCode.SPACE){
+//            h1.setScaleY(h1.getScaleY() * -1);
+//        }
+//    }
+
     @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
 
         isMousePressed = true;
         // Call a method to increase the size of the stick
         increaseStickSize();
-    }
 
+    }
+    @FXML
+    public void keyPressed(javafx.scene.input.KeyEvent event){
+        isKeyPressed = true;
+        if (event.getCode() == KeyCode.SPACE) {
+            System.out.println("yes");
+            h1.setScaleY(h1.getScaleY() * -1);
+        }
+    }
 
     private static int curr_rectangle  = 0;
 
@@ -146,6 +160,7 @@ public class StickHeroController implements Controller {
         }
         // Call a method to make the stick horizontal
         makeStickHorizontal();
+
         // some delay
         PauseTransition pause = new PauseTransition(Duration.millis(500));
         pause.setOnFinished(afterPause->{
@@ -154,6 +169,7 @@ public class StickHeroController implements Controller {
         pause.play();
 
     }
+
     public void move(){
         curr_rectangle ++ ;
         double x1 = rectangles.get(curr_rectangle - 1).getX();
@@ -299,7 +315,12 @@ public class StickHeroController implements Controller {
         Timeline t1 = new Timeline(k2);
         t1.play();
     }
-
+    @FXML
+    private void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.SPACE) {
+            h1.setScaleY(h1.getScaleY() * -1);
+        }
+    }
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException {
@@ -317,7 +338,11 @@ public class StickHeroController implements Controller {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         // Load the new scene
-        newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
+//        newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
+        newSceneRoot = loader.load();
+        // set-up controller for scene-1
+        controller = loader.getController();
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -342,8 +367,8 @@ public class StickHeroController implements Controller {
         sequentialTransition.setOnFinished(e -> {
             stage.setScene(new Scene(newSceneRoot));
             stage.show();
+            controller.anchorPane.requestFocus();
         });
-
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
 
@@ -353,6 +378,7 @@ public class StickHeroController implements Controller {
 
     }
     private Cherry cherry;
+    @FXML
     public void game_maker() {
         rectangles = new ArrayList<>();
         G1 = new Group();
@@ -404,6 +430,7 @@ public class StickHeroController implements Controller {
         System.out.println("Initial y:" + stick.getY());
         G1.getChildren().add(stick);
         ((Pane) newSceneRoot).getChildren().add(G1);
+
     }
 
     @FXML
