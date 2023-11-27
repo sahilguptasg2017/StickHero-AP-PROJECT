@@ -15,7 +15,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -106,7 +108,7 @@ public class StickHeroController implements Controller {
     public void setTimeline(Timeline timeline) {
         this.timeline = timeline;
     }
-
+    private boolean isKeyPressed = false;
     @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
 
@@ -114,9 +116,6 @@ public class StickHeroController implements Controller {
         // Call a method to increase the size of the stick
         increaseStickSize();
     }
-
-
-
     private static Group G1 ;
     private static Hero h1 ;
 
@@ -139,8 +138,8 @@ public class StickHeroController implements Controller {
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
         if (x2 > x1+w1+l || x2 + w2 < x1+w1+l){
-            double heronewX = l + 40;
-            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
+            double heronewX = l + 20;
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->GameOver());
             move_hero.play();
@@ -166,7 +165,10 @@ public class StickHeroController implements Controller {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        if (heroScore > highScore) highScore = heroScore;
+
         try{
+            Score.setText("Score :");
             endScene();
         }catch(Exception e){
             e.printStackTrace();
@@ -176,16 +178,20 @@ public class StickHeroController implements Controller {
     }
     @FXML
     public void endScene() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
-        Parent gameOverRoot = loader.load();
-        // Create a new stage for the game over scene
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
+        Parent rootOver = loader2.load();
+        GameOverController newController = loader2.getController();
+        newController.setScore(heroScore);
+        newController.setHighScore(highScore);
+        // Create new stage
         Stage gameOverStage = new Stage();
+        Scene scene2 = new Scene(rootOver);
         gameOverStage.setTitle("Game Over");
         Image icon = new Image("icon.png");
         gameOverStage.getIcons().add(icon);
-        gameOverStage.setScene(new Scene(gameOverRoot));
-//        myScore.setText(""+curr_rectangle);
+        gameOverStage.setScene(scene2);
 
+        // Show the stage
         gameOverStage.show();
 
     }
