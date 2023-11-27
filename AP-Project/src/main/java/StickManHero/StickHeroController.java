@@ -121,6 +121,14 @@ public class StickHeroController implements Controller {
 
     private static int curr_rectangle  = 0;
 
+    private Media media ;
+
+    private MediaPlayer mediaPlayer ;
+
+
+
+    private Media media_1 ;
+    private MediaPlayer mediaPlayer_1 ;
     @FXML
     public void unclickmouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
@@ -137,7 +145,7 @@ public class StickHeroController implements Controller {
         double x2 = rectangles.get(curr_rectangle).getX() ;
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
-        if (x2 > x1+w1+l || x2 + w2 < x1+w1+l){
+        if (x2 + 2 > x1+w1+l || x2 + w2 < x1+w1+l){
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
@@ -152,6 +160,17 @@ public class StickHeroController implements Controller {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->transitions());
             move_hero.play();
+            String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success_sound.mp3";
+
+            // Instantiating Media class
+            media_1 = new Media(new File(path_1).toURI().toString());
+
+            // Instantiating MediaPlayer class
+            mediaPlayer_1 = new MediaPlayer(media_1);
+
+            // by setting this property to true, the audio will be played
+            mediaPlayer_1.setAutoPlay(true);
+
             heroScore++;
             Score.setText("Score :" + heroScore);
         }
@@ -268,13 +287,13 @@ public class StickHeroController implements Controller {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException {
-        String path = "AP-Project\\src\\main\\java\\StickManHero\\game_sound.mp3";
+        String path = "AP-Project\\src\\main\\java\\StickManHero\\sound_1.mp3";
 
         // Instantiating Media class
-        Media media = new Media(new File(path).toURI().toString());
+        media = new Media(new File(path).toURI().toString());
 
         // Instantiating MediaPlayer class
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
 
         // by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
