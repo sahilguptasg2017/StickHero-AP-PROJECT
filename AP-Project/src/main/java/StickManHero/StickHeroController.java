@@ -196,6 +196,7 @@ public class StickHeroController implements Controller {
             // game-over
 //            System.exit(0);
         }else{
+    //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
             double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             // System.out.println("sw");
