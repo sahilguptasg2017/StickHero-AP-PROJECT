@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StickManHero.GameOverController">
    <children>
-      <Button layoutX="106.0" layoutY="246.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="52.0" text="Home" />
+      <Button layoutX="106.0" layoutY="246.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="46.0" prefWidth="52.0" text="Home" />
       <Button layoutX="246.0" layoutY="246.0" mnemonicParsing="false" onAction="#PlayAgain" prefHeight="46.0" prefWidth="74.0" text="Play Again" />
       <Label fx:id="myScore" layoutX="184.0" layoutY="37.0" text="SCORE" />
       <Label layoutX="188.0" layoutY="124.0" text="BEST" />

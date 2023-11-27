@@ -41,6 +41,7 @@ public class StickHeroController implements Controller {
     @FXML
     public Label myScore;
 
+
     private static Stage stage;
     private static Scene scene;
     private static Parent root;
@@ -408,9 +409,12 @@ public class StickHeroController implements Controller {
         // re-start the game
         heroScore = 0;
         curr_rectangle = 0;
-//        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//
-//        // Close the current stage
+        for(Stage stage: StickHeroApplication.openStages){
+            stage.close();
+        }
+        StickHeroApplication.openStages.clear();
+
+        // Close the current stage
 //        currentStage.close();
 
         // Load the initial scene
@@ -419,7 +423,7 @@ public class StickHeroController implements Controller {
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+        StickHeroApplication.openStages.add(stage);
         // Create a new scene for fade-out transition
         Scene oldScene = stage.getScene();
 
