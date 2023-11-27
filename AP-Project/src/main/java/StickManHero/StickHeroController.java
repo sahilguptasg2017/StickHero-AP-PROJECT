@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+// Add Interpolator to hero movement
 public class StickHeroController implements Controller {
     @FXML
     private static Label welcomeText;
@@ -59,6 +60,7 @@ public class StickHeroController implements Controller {
     static int heroScore = 0;
     static int highScore = 0;
     static boolean isFlipped = false;
+    static int onTower = 1;
     public StickHeroController controller;
     public int getINT_MAX() {
         return INT_MAX;
@@ -138,16 +140,17 @@ public class StickHeroController implements Controller {
         isKeyPressed = true;
         if (event.getCode() == KeyCode.SPACE) {
             System.out.println("yes");
-            if(!isFlipped){
-                h1.setY(h1.getY() + 53);
-                h1.setScaleY(h1.getScaleY() * -1);
-                isFlipped = true;
-            }else{
-                h1.setY(h1.getY() - 53);
-                h1.setScaleY(h1.getScaleY() * -1);
-                isFlipped = false;
+            if (onTower == 0){
+                if(!isFlipped){
+                    h1.setY(h1.getY() + 53);
+                    h1.setScaleY(h1.getScaleY() * -1);
+                    isFlipped = true;
+                }else{
+                    h1.setY(h1.getY() - 53);
+                    h1.setScaleY(h1.getScaleY() * -1);
+                    isFlipped = false;
+                }
             }
-
         }
     }
 
@@ -172,8 +175,9 @@ public class StickHeroController implements Controller {
         makeStickHorizontal();
 
         // some delay
-        PauseTransition pause = new PauseTransition(Duration.millis(500));
+        PauseTransition pause = new PauseTransition(Duration.millis(300));
         pause.setOnFinished(afterPause->{
+            onTower = 0;
             move();
         });
         pause.play();
@@ -202,7 +206,10 @@ public class StickHeroController implements Controller {
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             // System.out.println("sw");
             move_hero.setByX(heronewX);
-            move_hero.setOnFinished(event1->transitions());
+            move_hero.setOnFinished(event1->{
+                onTower = 1;
+                transitions();
+            });
             move_hero.play();
             heroScore++;
             Score.setText("Score :" + heroScore);
@@ -255,6 +262,8 @@ public class StickHeroController implements Controller {
         // re-start the game
         heroScore = 0;
         curr_rectangle = 0;
+        onTower = 1;
+        isFlipped = false;
         game_maker();
 
         // To Remove the window where myScore label is there
@@ -509,6 +518,7 @@ public class StickHeroController implements Controller {
         // Set the new scene with a fade-in transition
         sequentialTransition.setOnFinished(e -> {
             stage.setScene(new Scene(root));
+            stage.setTitle("StickHero Game");
             stage.show();
         });
 
