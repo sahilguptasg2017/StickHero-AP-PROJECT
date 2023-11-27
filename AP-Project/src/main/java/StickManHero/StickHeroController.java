@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -101,7 +102,8 @@ public class StickHeroController implements Controller {
         this.stage = stage;
     }
 
-
+    private static Group G1 ;
+    private static Hero h1 ;
     public Timeline getTimeline() {
         return timeline;
     }
@@ -111,14 +113,19 @@ public class StickHeroController implements Controller {
     }
     private boolean isKeyPressed = false;
     @FXML
+    public void flipHero(javafx.scene.input.KeyEvent event){
+        if(event.getCode() == KeyCode.SPACE){
+            h1.setScaleY(h1.getScaleY() * -1);
+        }
+    }
+    @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
 
         isMousePressed = true;
         // Call a method to increase the size of the stick
         increaseStickSize();
     }
-    private static Group G1 ;
-    private static Hero h1 ;
+
 
     private static int curr_rectangle  = 0;
 
@@ -139,13 +146,22 @@ public class StickHeroController implements Controller {
         }
         // Call a method to make the stick horizontal
         makeStickHorizontal();
+        // some delay
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
+        pause.setOnFinished(afterPause->{
+            move();
+        });
+        pause.play();
 
+    }
+    public void move(){
         curr_rectangle ++ ;
         double x1 = rectangles.get(curr_rectangle - 1).getX();
         double w1 = rectangles.get(curr_rectangle - 1).getWidth();
         double x2 = rectangles.get(curr_rectangle).getX() ;
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
+        // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
@@ -157,7 +173,7 @@ public class StickHeroController implements Controller {
 //            System.exit(0);
         }else{
             double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
-            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1000),h1) ;
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             // System.out.println("sw");
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->transitions());
@@ -336,10 +352,11 @@ public class StickHeroController implements Controller {
         // Set separate event handlers for mouse pressed and released
 
     }
-
+    private Cherry cherry;
     public void game_maker() {
         rectangles = new ArrayList<>();
         G1 = new Group();
+        int cherry_up = 0;
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
@@ -349,6 +366,17 @@ public class StickHeroController implements Controller {
                 r.setY(456);
                 rectangles.add(r);
                 G1.getChildren().add(r);
+                cherry = new Cherry();
+                cherry.setFitHeight(30);
+                cherry.setFitWidth(30);
+                cherry_up = random.nextInt(2);
+                cherry.setX(r.getX() + r.getWidth() + random.nextInt(160));
+                if (cherry_up == 0){
+                    cherry.setY(r.getY()+10);
+                }else{
+                    cherry.setY(r.getY()-40);
+                }
+                G1.getChildren().add(cherry);
             } else {
                 Rectangle r = new Rectangle(width, 200, Color.BLACK);
                 r.setX(i * 300);
@@ -357,6 +385,7 @@ public class StickHeroController implements Controller {
                 G1.getChildren().add(r);
             }
         }
+//        for (int i=0;i)
 
         h1 = new Hero();
         h1.setFitWidth(40);

@@ -1,6 +1,9 @@
 package StickManHero;
 
-public class Cherry {
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class Cherry extends ImageView {
 
     private int count ;
 
@@ -23,7 +26,10 @@ public class Cherry {
         this.count -= count ;
     }
 
-
+    public Cherry(){
+        Image cherry = new Image("cherry.png") ;
+        setImage(cherry);
+    }
 
 
 }
