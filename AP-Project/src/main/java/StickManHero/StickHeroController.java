@@ -161,17 +161,6 @@ public class StickHeroController implements Controller {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->transitions());
             move_hero.play();
-            String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success_sound.mp3";
-
-            // Instantiating Media class
-            media_1 = new Media(new File(path_1).toURI().toString());
-
-            // Instantiating MediaPlayer class
-            mediaPlayer_1 = new MediaPlayer(media_1);
-
-            // by setting this property to true, the audio will be played
-            mediaPlayer_1.setAutoPlay(true);
-
             heroScore++;
             Score.setText("Score :" + heroScore);
         }
@@ -256,6 +245,15 @@ public class StickHeroController implements Controller {
         G1.getChildren().add(new_stick) ;
 
         stick = new_stick ;
+        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success_sound.mp3";
+
+        media_1 = new Media(new File(path_1).toURI().toString());
+
+        // Instantiating MediaPlayer class
+        mediaPlayer_1 = new MediaPlayer(media_1);
+
+        // by setting this property to true, the audio will be played
+        mediaPlayer_1.setAutoPlay(true);
     }
 
     private void increaseStickSize() {
