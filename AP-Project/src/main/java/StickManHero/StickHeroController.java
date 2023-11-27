@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -180,6 +181,8 @@ public class StickHeroController implements Controller {
         // Create a new stage for the game over scene
         Stage gameOverStage = new Stage();
         gameOverStage.setTitle("Game Over");
+        Image icon = new Image("icon.png");
+        gameOverStage.getIcons().add(icon);
         gameOverStage.setScene(new Scene(gameOverRoot));
 //        myScore.setText(""+curr_rectangle);
 
