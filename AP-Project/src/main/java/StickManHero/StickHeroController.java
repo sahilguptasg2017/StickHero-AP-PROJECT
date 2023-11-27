@@ -338,12 +338,6 @@ public class StickHeroController implements Controller {
         Timeline t1 = new Timeline(k2);
         t1.play();
     }
-    @FXML
-    private void handleKeyPress(KeyEvent event) {
-        if (event.getCode() == KeyCode.SPACE) {
-            h1.setScaleY(h1.getScaleY() * -1);
-        }
-    }
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException {
@@ -404,6 +398,8 @@ public class StickHeroController implements Controller {
     @FXML
     public void game_maker() {
         rectangles = new ArrayList<>();
+        isFlipped = false;
+        keyEnabler = 1;
         G1 = new Group();
         int cherry_up = 0;
         for (int i = 0; i < getINT_MAX(); i++) {
