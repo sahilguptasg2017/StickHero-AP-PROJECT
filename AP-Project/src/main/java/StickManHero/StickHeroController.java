@@ -120,12 +120,6 @@ public class StickHeroController implements Controller {
         this.timeline = timeline;
     }
     private boolean isKeyPressed = false;
-//    @FXML
-//    public void flipHero(javafx.scene.input.KeyEvent event){
-//        if(event.getCode() == KeyCode.SPACE){
-//            h1.setScaleY(h1.getScaleY() * -1);
-//        }
-//    }
 
     @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
@@ -202,13 +196,17 @@ public class StickHeroController implements Controller {
             // game-over
 //            System.exit(0);
         }else{
-            double heronewX = 300 + rectangles.get(curr_rectangle).getWidth() - rectangles.get(curr_rectangle - 1).getWidth();
+            double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             // System.out.println("sw");
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->{
-                onTower = 1;
-                transitions();
+                if (isFlipped){
+                    GameOver();
+                }else{
+                    onTower = 1;
+                    transitions();
+                }
             });
             move_hero.play();
             heroScore++;
@@ -277,7 +275,7 @@ public class StickHeroController implements Controller {
             transition.play();
         }
 
-        double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth()  - rectangles.get(curr_rectangle).getWidth() ;
+        double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth() ;
         TranslateTransition transition_2 = new TranslateTransition(Duration.millis(1000),h1) ;
         transition_2.setToX(heronew1X);
         transition_2.play();
