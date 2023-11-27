@@ -35,6 +35,8 @@ public class StickHeroController implements Controller {
     private static Label exitText;
     @FXML
     public Label Score;
+    @FXML
+    public Label myScore;
 
     private static Stage stage;
     private static Scene scene;
@@ -45,6 +47,8 @@ public class StickHeroController implements Controller {
     private static Rectangle stick;
     private static boolean isMousePressed = false;
     private   Timeline timeline ;
+    static int heroScore = 0;
+    static int highScore = 0;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -148,10 +152,11 @@ public class StickHeroController implements Controller {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->transitions());
             move_hero.play();
-            Score.setText("Score :" + curr_rectangle);
+            heroScore++;
+            Score.setText("Score :" + heroScore);
         }
     }
-    private void GameOver(){
+    public void GameOver(){
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         translate.setToY(300f);
         translate.setAutoReverse(true);
@@ -160,6 +165,39 @@ public class StickHeroController implements Controller {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        try{
+            endScene();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+    @FXML
+    public void endScene() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
+        Parent gameOverRoot = loader.load();
+        // Create a new stage for the game over scene
+        Stage gameOverStage = new Stage();
+        gameOverStage.setTitle("Game Over");
+        gameOverStage.setScene(new Scene(gameOverRoot));
+//        myScore.setText(""+curr_rectangle);
+
+        gameOverStage.show();
+
+    }
+    @FXML
+    public void PlayAgain(ActionEvent event) throws IOException{
+        // clear all nodes from previous scene
+        rectangles.clear();
+        G1.getChildren().clear();
+        // re-start the game
+        heroScore = 0;
+        curr_rectangle = 0;
+        game_maker();
+
+        // To Remove the window where myScore label is there
+        ((Stage) myScore.getScene().getWindow()).close();
     }
     private void transitions(){
         for (Rectangle rectangle : rectangles) {
@@ -273,7 +311,6 @@ public class StickHeroController implements Controller {
 
     public void game_maker() {
         rectangles = new ArrayList<>();
-
         G1 = new Group();
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
@@ -306,9 +343,9 @@ public class StickHeroController implements Controller {
         stick.setHeight(1);
         stick.setY(455);
         stick.setX(58 + rectangles.get(0).getWidth() / 2);
-
+        System.out.println("Initial x:" + stick.getX());
+        System.out.println("Initial y:" + stick.getY());
         G1.getChildren().add(stick);
-
         ((Pane) newSceneRoot).getChildren().add(G1);
     }
 
