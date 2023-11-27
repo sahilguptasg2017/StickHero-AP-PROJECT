@@ -138,7 +138,7 @@ public class StickHeroController implements Controller {
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
         if (x2 > x1+w1+l || x2 + w2 < x1+w1+l){
-            double heronewX = l + 40;
+            double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->GameOver());
@@ -165,7 +165,10 @@ public class StickHeroController implements Controller {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        if (heroScore > highScore) highScore = heroScore;
+
         try{
+            Score.setText("Score :");
             endScene();
         }catch(Exception e){
             e.printStackTrace();
@@ -179,7 +182,7 @@ public class StickHeroController implements Controller {
         Parent rootOver = loader2.load();
         GameOverController newController = loader2.getController();
         newController.setScore(heroScore);
-
+        newController.setHighScore(highScore);
         // Create new stage
         Stage gameOverStage = new Stage();
         Scene scene2 = new Scene(rootOver);

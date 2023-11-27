@@ -11,6 +11,6 @@
       <Label fx:id="myScore" layoutX="184.0" layoutY="37.0" text="SCORE" />
       <Label layoutX="188.0" layoutY="124.0" text="BEST" />
       <Label fx:id="gameOverScoreLabel" layoutX="188.0" layoutY="78.0" text="Label" />
-      <Label layoutX="187.0" layoutY="163.0" text="Label" />
+      <Label fx:id="gameHighScoreLabel" layoutX="187.0" layoutY="163.0" text="Label" />
    </children>
 </AnchorPane>
