@@ -145,12 +145,13 @@ public class StickHeroController implements Controller {
         double x2 = rectangles.get(curr_rectangle).getX() ;
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
-        if (x2 + 2 > x1+w1+l || x2 + w2 < x1+w1+l){
+        if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->GameOver());
             move_hero.play();
+            Score.setText("Score: ");
             // game-over
 //            System.exit(0);
         }else{
@@ -401,6 +402,50 @@ public class StickHeroController implements Controller {
                 alert.close();
             }
         });
+    }
+    @FXML
+    private void goToHome(ActionEvent event) throws IOException {
+        rectangles.clear();
+        G1.getChildren().clear();
+        // re-start the game
+        heroScore = 0;
+        curr_rectangle = 0;
+//        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//        // Close the current stage
+//        currentStage.close();
+
+        // Load the initial scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StickHero.fxml"));
+        Parent root = loader.load();
+
+        // Get the current stage
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Create a new scene for fade-out transition
+        Scene oldScene = stage.getScene();
+
+        // Set up a fade-out transition for the old scene
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500), oldScene.getRoot());
+        fadeOutTransition.setFromValue(1.0);
+        fadeOutTransition.setToValue(0.0);
+
+        // Set up a fade-in transition for the new scene
+        FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500), root);
+        fadeInTransition.setFromValue(0.0);
+        fadeInTransition.setToValue(1.0);
+
+        // Combine fade-out and fade-in transitions
+        SequentialTransition sequentialTransition = new SequentialTransition(fadeOutTransition, fadeInTransition);
+
+        // Set the new scene with a fade-in transition
+        sequentialTransition.setOnFinished(e -> {
+            stage.setScene(new Scene(root));
+            stage.show();
+        });
+
+        // Start the combined fade-out and fade-in transition
+        sequentialTransition.play();
     }
 
     @Override
