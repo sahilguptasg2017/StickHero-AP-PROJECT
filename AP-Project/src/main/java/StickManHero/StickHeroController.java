@@ -122,14 +122,14 @@ public class StickHeroController implements Controller {
 
     private static int curr_rectangle  = 0;
 
-    private Media media ;
+    private static Media media ;
 
-    private MediaPlayer mediaPlayer ;
+    private static MediaPlayer mediaPlayer ;
 
 
 
-    private Media media_1 ;
-    private MediaPlayer mediaPlayer_1 ;
+    private static Media media_1 ;
+    private static MediaPlayer mediaPlayer_1 ;
     @FXML
     public void unclickmouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
