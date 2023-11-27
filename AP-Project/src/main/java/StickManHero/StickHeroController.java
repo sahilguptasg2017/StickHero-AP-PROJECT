@@ -246,7 +246,7 @@ public class StickHeroController implements Controller {
         G1.getChildren().add(new_stick) ;
 
         stick = new_stick ;
-        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success_sound.mp3";
+        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success.mp3";
 
         media_1 = new Media(new File(path_1).toURI().toString());
 
