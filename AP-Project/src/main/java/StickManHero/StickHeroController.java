@@ -3,6 +3,7 @@ package StickManHero;
 import com.almasb.fxgl.entity.action.Action;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -228,7 +229,9 @@ public class StickHeroController implements Controller,Runnable {
                     }catch(InterruptedException e){
                         e.printStackTrace();
                     }
-                    makeNewStick();
+                    Platform.runLater(() ->{
+                        makeNewStick();
+                    });
                 }
             });
             move_hero.play();
@@ -237,28 +240,74 @@ public class StickHeroController implements Controller,Runnable {
             Random random = new Random();
             produceCherry = random.nextInt(2);
             if (produceCherry == 1){
-                System.out.println("cherry created");
-                cherry = new Cherry();
-                cherry.setFitHeight(30);
-                cherry.setFitWidth(30);
-                cherry_up = random.nextInt(2);
-                int max = (int) rectangles.get(curr_rectangle).getTranslateX();
-                int min = (int) rectangles.get(curr_rectangle-1).getWidth() + (int) rectangles.get(curr_rectangle-1).getTranslateX();
-                int range = max - min;
-                // 30 is cherry width
-                cherry.setX(rectangles.get(curr_rectangle-1).getTranslateX() + rectangles.get(curr_rectangle-1).getWidth() + random.nextInt(range) - 30);
-                if (cherry_up == 0){
-                    // sets cherry below stick
-                    System.out.println("down");
-                    cherry.setY(456+10);
-                }else{
-                    // sets cherry above stick
-                    System.out.println("up");
-                    cherry.setY(456-40);
-                }
-                G1.getChildren().add(cherry);
+                makeCherry();
             }
         }
+    }
+    public void makeCherry(){
+        System.out.println("cherry created");
+        Random random = new Random();
+        cherry = new Cherry();
+        cherry.setFitHeight(30);
+        cherry.setFitWidth(30);
+        cherry_up = random.nextInt(2);
+        // 30 is cherry width
+        int min = (int) (10 + rectangles.get(curr_rectangle-1).getWidth());
+        int max = 300 - 30;
+        int range = max-min;
+        cherry.setX(min + random.nextInt(range));
+        System.out.println("cherry coordinate: "+ cherry.getX());
+        if (cherry_up == 0){
+            // sets cherry below stick
+            System.out.println("down");
+            cherry.setY(456+10);
+        }else{
+            // sets cherry above stick
+            System.out.println("up");
+            cherry.setY(456-40);
+        }
+        G1.getChildren().add(cherry);
+    }
+    private void transitions(){
+        for (Rectangle rectangle : rectangles) {
+            double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+            TranslateTransition transition = new TranslateTransition(Duration.millis(500),rectangle) ;
+            transition.setToX(newX);
+            transition.play();
+        }
+
+        double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth() ;
+        TranslateTransition transition_2 = new TranslateTransition(Duration.millis(500),h1) ;
+        transition_2.setToX(heronew1X);
+        transition_2.play();
+
+        double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
+        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(500),stick) ;
+        transition_1.setToX(sticknewX);
+        transition_1.play();
+//        G1.getChildren().remove(stick);
+
+    }
+    public void makeNewStick(){
+        Rectangle new_stick = new Rectangle() ;
+
+        new_stick.setWidth(3);
+        new_stick.setHeight(1);
+        new_stick.setY(455);
+        new_stick.setX(46 + rectangles.get(0).getWidth() / 2);
+
+        G1.getChildren().add(new_stick) ;
+
+        stick = new_stick ;
+        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success.mp3";
+
+        media_1 = new Media(new File(path_1).toURI().toString());
+
+        // Instantiating MediaPlayer class
+        mediaPlayer_1 = new MediaPlayer(media_1);
+
+        // by setting this property to true, the audio will be played
+        mediaPlayer_1.setAutoPlay(true);
     }
     public void GameOver(){
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
@@ -315,47 +364,7 @@ public class StickHeroController implements Controller,Runnable {
         // To Remove the window where myScore label is there
         ((Stage) myScore.getScene().getWindow()).close();
     }
-    private void transitions(){
-        for (Rectangle rectangle : rectangles) {
-            double newX = rectangle.getTranslateX() - 300 + rectangles.get(curr_rectangle - 1 ).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-            TranslateTransition transition = new TranslateTransition(Duration.millis(500),rectangle) ;
-            transition.setToX(newX);
-            transition.play();
-        }
 
-        double heronew1X = h1.getTranslateX() - 300 + rectangles.get(curr_rectangle -1).getWidth() ;
-        TranslateTransition transition_2 = new TranslateTransition(Duration.millis(500),h1) ;
-        transition_2.setToX(heronew1X);
-        transition_2.play();
-
-        double sticknewX = stick.getTranslateX() - 300+ rectangles.get(curr_rectangle - 1).getWidth() - rectangles.get(curr_rectangle).getWidth() ;
-        TranslateTransition transition_1 = new TranslateTransition(Duration.millis(500),stick) ;
-        transition_1.setToX(sticknewX);
-        transition_1.play();
-//        G1.getChildren().remove(stick);
-
-    }
-    public void makeNewStick(){
-        Rectangle new_stick = new Rectangle() ;
-
-        new_stick.setWidth(3);
-        new_stick.setHeight(1);
-        new_stick.setY(455);
-        new_stick.setX(46 + rectangles.get(0).getWidth() / 2);
-
-        G1.getChildren().add(new_stick) ;
-
-        stick = new_stick ;
-        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\success.mp3";
-
-        media_1 = new Media(new File(path_1).toURI().toString());
-
-        // Instantiating MediaPlayer class
-        mediaPlayer_1 = new MediaPlayer(media_1);
-
-        // by setting this property to true, the audio will be played
-        mediaPlayer_1.setAutoPlay(true);
-    }
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
         timeline = new Timeline(new KeyFrame(Duration.millis(8), event -> {
