@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -67,6 +68,9 @@ public class StickHeroController implements Controller,Runnable {
     private Cherry cherry;
     private int cherry_up = 0;
     private int produceCherry = 1;
+    private int cherryAvailable = 0;            // flag to check whether cherry is available or not
+    private static int cherryScore = 0;
+    private int cherryCollected = 0;            // Tracks whether cherry is collected or not
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -222,7 +226,8 @@ public class StickHeroController implements Controller,Runnable {
                     GameOver();
                 }else{
                     onTower = 1;
-                    // moveAll is a thread
+
+                    // moveAll is a thread which calls transitions
                     moveAll.start();
                     try{
                         moveAll.join();
@@ -231,17 +236,34 @@ public class StickHeroController implements Controller,Runnable {
                     }
                     Platform.runLater(() ->{
                         makeNewStick();
+                        Random random = new Random();
+                        produceCherry = random.nextInt(2);
+                        if (produceCherry == 1){
+                            makeCherry();
+                        }
                     });
                 }
             });
             move_hero.play();
-            heroScore++;
             Score.setText("Score :" + heroScore);
-            Random random = new Random();
-            produceCherry = random.nextInt(2);
-            if (produceCherry == 1){
-                makeCherry();
-            }
+            h1.translateXProperty().addListener((obs, oldX, newX) -> {
+                if (cherryAvailable == 1){
+                    Bounds b1 = h1.getBoundsInParent();
+                    Bounds b2 = cherry.getBoundsInParent();
+
+                    if(b1.intersects(b2)){
+                        G1.getChildren().remove(cherry);
+                        System.out.println("Cherry collected");
+                        System.out.println("Collision detected!");
+                        cherryScore++;
+                        cherryAvailable = 0;
+                        cherryCollected = 1;
+                        // add collision handling code here
+                    }
+                }
+            });
+            heroScore++;
+
         }
     }
     public void makeCherry(){
@@ -267,6 +289,8 @@ public class StickHeroController implements Controller,Runnable {
             cherry.setY(456-40);
         }
         G1.getChildren().add(cherry);
+        cherryAvailable = 1;
+        cherryCollected = 0;
     }
     private void transitions(){
         for (Rectangle rectangle : rectangles) {
@@ -359,6 +383,9 @@ public class StickHeroController implements Controller,Runnable {
         onTower = 1;
         isFlipped = false;
         keyEnabler = 1;
+        cherryAvailable = 0;
+        cherryScore = 0;
+        cherryCollected = 0;
         game_maker();
 
         // To Remove the window where myScore label is there
@@ -453,8 +480,13 @@ public class StickHeroController implements Controller,Runnable {
         rectangles = new ArrayList<>();
         isFlipped = false;
         keyEnabler = 1;
+        cherryAvailable = 0;
+        cherryScore = 0;
+        onTower = 1;
+        heroScore = 0;
         G1 = new Group();
         cherry_up = 0;
+        cherryCollected = 0;
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
