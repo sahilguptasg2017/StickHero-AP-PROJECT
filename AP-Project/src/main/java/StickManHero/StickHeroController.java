@@ -242,11 +242,11 @@ public class StickHeroController implements Controller,Runnable {
                 cherry.setFitHeight(30);
                 cherry.setFitWidth(30);
                 cherry_up = random.nextInt(2);
-                int max = (int) rectangles.get(curr_rectangle).getX();
-                int min = (int) rectangles.get(curr_rectangle-1).getWidth() + (int) rectangles.get(curr_rectangle-1).getX();
+                int max = (int) rectangles.get(curr_rectangle).getTranslateX();
+                int min = (int) rectangles.get(curr_rectangle-1).getWidth() + (int) rectangles.get(curr_rectangle-1).getTranslateX();
                 int range = max - min;
                 // 30 is cherry width
-                cherry.setX(rectangles.get(curr_rectangle-1).getX() + rectangles.get(curr_rectangle-1).getWidth() + random.nextInt(range) - 30);
+                cherry.setX(rectangles.get(curr_rectangle-1).getTranslateX() + rectangles.get(curr_rectangle-1).getWidth() + random.nextInt(range) - 30);
                 if (cherry_up == 0){
                     // sets cherry below stick
                     System.out.println("down");
