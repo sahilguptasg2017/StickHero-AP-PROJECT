@@ -132,6 +132,9 @@ public class StickHeroController implements Controller,Runnable {
 
     @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
+//        if (cherryAvailable == 1 && cherryCollected == 0){
+//                G1.getChildren().remove(cherry);
+//            }
 
         isMousePressed = true;
         // Call a method to increase the size of the stick
@@ -216,6 +219,7 @@ public class StickHeroController implements Controller,Runnable {
             // game-over
 //            System.exit(0);
         }else{
+
         //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
             double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
@@ -245,7 +249,6 @@ public class StickHeroController implements Controller,Runnable {
                 }
             });
             move_hero.play();
-            Score.setText("Score :" + heroScore);
             h1.translateXProperty().addListener((obs, oldX, newX) -> {
                 if (cherryAvailable == 1){
                     Bounds b1 = h1.getBoundsInParent();
@@ -263,6 +266,8 @@ public class StickHeroController implements Controller,Runnable {
                 }
             });
             heroScore++;
+            Score.setText("Score :" + heroScore);
+
 
         }
     }
@@ -272,22 +277,16 @@ public class StickHeroController implements Controller,Runnable {
         cherry = new Cherry();
         cherry.setFitHeight(30);
         cherry.setFitWidth(30);
-        cherry_up = random.nextInt(2);
         // 30 is cherry width
-        int min = (int) (10 + rectangles.get(curr_rectangle-1).getWidth());
+        int min = (int) (10 + rectangles.get(curr_rectangle-1).getWidth() + 30);
         int max = 300 - 30;
         int range = max-min;
         cherry.setX(min + random.nextInt(range));
         System.out.println("cherry coordinate: "+ cherry.getX());
-        if (cherry_up == 0){
-            // sets cherry below stick
-            System.out.println("down");
-            cherry.setY(456+10);
-        }else{
-            // sets cherry above stick
-            System.out.println("up");
-            cherry.setY(456-40);
-        }
+        // sets cherry below stick
+        System.out.println("down");
+        cherry.setY(456+10);
+
         G1.getChildren().add(cherry);
         cherryAvailable = 1;
         cherryCollected = 0;
