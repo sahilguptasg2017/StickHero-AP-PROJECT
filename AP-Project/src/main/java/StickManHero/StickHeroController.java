@@ -63,6 +63,8 @@ public class StickHeroController implements Controller {
     static int onTower = 1;
     public StickHeroController controller;
     static int keyEnabler = 1;
+    private Cherry cherry;
+    private int cherry_up = 0;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -216,6 +218,25 @@ public class StickHeroController implements Controller {
             move_hero.play();
             heroScore++;
             Score.setText("Score :" + heroScore);
+            Random random = new Random();
+            cherry = new Cherry();
+            cherry.setFitHeight(30);
+            cherry.setFitWidth(30);
+            cherry_up = random.nextInt(2);
+            int max = (int) rectangles.get(curr_rectangle + 1).getX();
+            int min = (int) rectangles.get(curr_rectangle).getWidth() + (int) rectangles.get(curr_rectangle).getX();
+            int range = max - min;
+            cherry.setX(rectangles.get(curr_rectangle).getX() + rectangles.get(curr_rectangle).getWidth() + random.nextInt(range));
+            if (cherry_up == 0){
+                // sets cherry below stick
+                System.out.println("down");
+                cherry.setY(456+10);
+            }else{
+                // sets cherry above stick
+                System.out.println("up");
+                cherry.setY(456-40);
+            }
+            G1.getChildren().add(cherry);
         }
     }
     public void GameOver(){
@@ -394,14 +415,14 @@ public class StickHeroController implements Controller {
         // Set separate event handlers for mouse pressed and released
 
     }
-    private Cherry cherry;
+
     @FXML
     public void game_maker() {
         rectangles = new ArrayList<>();
         isFlipped = false;
         keyEnabler = 1;
         G1 = new Group();
-        int cherry_up = 0;
+        cherry_up = 0;
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
@@ -417,9 +438,13 @@ public class StickHeroController implements Controller {
                 cherry_up = random.nextInt(2);
                 cherry.setX(r.getX() + r.getWidth() + random.nextInt(160));
                 if (cherry_up == 0){
-                    cherry.setY(r.getY()+10);
+                    // 456 is rectangle y-coordinate
+                    // sets cherry below stick
+                    cherry.setY(456+10);
                 }else{
-                    cherry.setY(r.getY()-40);
+                    // 456 is rectangle y-coordinate
+                    // sets cherry above stick
+                    cherry.setY(456-40);
                 }
                 G1.getChildren().add(cherry);
             } else {
