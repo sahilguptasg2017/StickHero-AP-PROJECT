@@ -37,7 +37,7 @@ import java.util.Objects;
 import java.util.Random;
 
 // Add Interpolator to hero movement
-public class StickHeroController implements Controller {
+public class StickHeroController implements Controller,Runnable {
     @FXML
     private static Label welcomeText;
     private static Label exitText;
@@ -65,6 +65,7 @@ public class StickHeroController implements Controller {
     static int keyEnabler = 1;
     private Cherry cherry;
     private int cherry_up = 0;
+    private int produceCherry = 1;
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -182,6 +183,10 @@ public class StickHeroController implements Controller {
         pause.play();
 
     }
+    @Override
+    public void run() {
+        transitions();
+    }
 
     public void move(){
         curr_rectangle ++ ;
@@ -190,6 +195,10 @@ public class StickHeroController implements Controller {
         double x2 = rectangles.get(curr_rectangle).getX() ;
         double w2 = rectangles.get(curr_rectangle).getWidth();
         double l = stick.getHeight();
+        StickHeroController myRunnable = new StickHeroController();
+
+        Thread moveAll = new Thread(myRunnable);
+
         // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             keyEnabler = 0;
@@ -212,31 +221,43 @@ public class StickHeroController implements Controller {
                     GameOver();
                 }else{
                     onTower = 1;
-                    transitions();
+                    // moveAll is a thread
+                    moveAll.start();
+                    try{
+                        moveAll.join();
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    makeNewStick();
                 }
             });
             move_hero.play();
             heroScore++;
             Score.setText("Score :" + heroScore);
             Random random = new Random();
-            cherry = new Cherry();
-            cherry.setFitHeight(30);
-            cherry.setFitWidth(30);
-            cherry_up = random.nextInt(2);
-            int max = (int) rectangles.get(curr_rectangle + 1).getX();
-            int min = (int) rectangles.get(curr_rectangle).getWidth() + (int) rectangles.get(curr_rectangle).getX();
-            int range = max - min;
-            cherry.setX(rectangles.get(curr_rectangle).getX() + rectangles.get(curr_rectangle).getWidth() + random.nextInt(range));
-            if (cherry_up == 0){
-                // sets cherry below stick
-                System.out.println("down");
-                cherry.setY(456+10);
-            }else{
-                // sets cherry above stick
-                System.out.println("up");
-                cherry.setY(456-40);
+            produceCherry = random.nextInt(2);
+            if (produceCherry == 1){
+                System.out.println("cherry created");
+                cherry = new Cherry();
+                cherry.setFitHeight(30);
+                cherry.setFitWidth(30);
+                cherry_up = random.nextInt(2);
+                int max = (int) rectangles.get(curr_rectangle).getX();
+                int min = (int) rectangles.get(curr_rectangle-1).getWidth() + (int) rectangles.get(curr_rectangle-1).getX();
+                int range = max - min;
+                // 30 is cherry width
+                cherry.setX(rectangles.get(curr_rectangle-1).getX() + rectangles.get(curr_rectangle-1).getWidth() + random.nextInt(range) - 30);
+                if (cherry_up == 0){
+                    // sets cherry below stick
+                    System.out.println("down");
+                    cherry.setY(456+10);
+                }else{
+                    // sets cherry above stick
+                    System.out.println("up");
+                    cherry.setY(456-40);
+                }
+                G1.getChildren().add(cherry);
             }
-            G1.getChildren().add(cherry);
         }
     }
     public void GameOver(){
@@ -311,7 +332,10 @@ public class StickHeroController implements Controller {
         TranslateTransition transition_1 = new TranslateTransition(Duration.millis(500),stick) ;
         transition_1.setToX(sticknewX);
         transition_1.play();
+//        G1.getChildren().remove(stick);
 
+    }
+    public void makeNewStick(){
         Rectangle new_stick = new Rectangle() ;
 
         new_stick.setWidth(3);
@@ -332,7 +356,6 @@ public class StickHeroController implements Controller {
         // by setting this property to true, the audio will be played
         mediaPlayer_1.setAutoPlay(true);
     }
-
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
         timeline = new Timeline(new KeyFrame(Duration.millis(8), event -> {
@@ -432,21 +455,6 @@ public class StickHeroController implements Controller {
                 r.setY(456);
                 rectangles.add(r);
                 G1.getChildren().add(r);
-                cherry = new Cherry();
-                cherry.setFitHeight(30);
-                cherry.setFitWidth(30);
-                cherry_up = random.nextInt(2);
-                cherry.setX(r.getX() + r.getWidth() + random.nextInt(160));
-                if (cherry_up == 0){
-                    // 456 is rectangle y-coordinate
-                    // sets cherry below stick
-                    cherry.setY(456+10);
-                }else{
-                    // 456 is rectangle y-coordinate
-                    // sets cherry above stick
-                    cherry.setY(456-40);
-                }
-                G1.getChildren().add(cherry);
             } else {
                 Rectangle r = new Rectangle(width, 200, Color.BLACK);
                 r.setX(i * 300);
@@ -554,4 +562,6 @@ public class StickHeroController implements Controller {
     @Override
     public void onStartButtonClick() throws IOException {
     }
+
+
 }
