@@ -13,7 +13,12 @@
             <Image url="@../background.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="Score" layoutX="580.0" layoutY="25.0" prefHeight="74.0" prefWidth="310.0" text="Score:">
+      <Label fx:id="Score" layoutX="580.0" layoutY="25.0" prefHeight="74.0" prefWidth="310.0" text="Score: ">
+         <font>
+            <Font name="Arial" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="myCherry" layoutX="580.0" layoutY="99.0" prefHeight="74.0" prefWidth="293.0" text="Cherry: ">
          <font>
             <Font name="Arial" size="25.0" />
          </font>

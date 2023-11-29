@@ -49,6 +49,8 @@ public class StickHeroController implements Controller,Runnable {
     public Label myScore;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    public Label myCherry;
 
     private static Stage stage;
     private static Scene scene;
@@ -220,6 +222,7 @@ public class StickHeroController implements Controller,Runnable {
             move_hero.setOnFinished(endEvent->GameOver());
             move_hero.play();
             Score.setText("Score: ");
+            myCherry.setText("Cherry: ");
             // game-over
 //            System.exit(0);
         }else{
@@ -274,6 +277,7 @@ public class StickHeroController implements Controller,Runnable {
                         System.out.println("Cherry collected");
                         System.out.println("Collision detected!");
                         cherryScore++;
+                        myCherry.setText("Cherry :"+ cherryScore);
                         cherryAvailable = 0;
                         cherryCollected = 1;
                         // add collision handling code here
@@ -363,6 +367,7 @@ public class StickHeroController implements Controller,Runnable {
 
         try{
             Score.setText("Score :");
+            myCherry.setText("Cherry :");
             endScene();
         }catch(Exception e){
             e.printStackTrace();
@@ -377,6 +382,7 @@ public class StickHeroController implements Controller,Runnable {
         GameOverController newController = loader2.getController();
         newController.setScore(heroScore);
         newController.setHighScore(highScore);
+        newController.setCherryScore(cherryScore);
         // Create new stage
         Stage gameOverStage = new Stage();
         Scene scene2 = new Scene(rootOver);

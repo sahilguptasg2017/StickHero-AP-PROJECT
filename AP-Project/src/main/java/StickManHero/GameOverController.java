@@ -8,10 +8,15 @@ public class GameOverController extends StickHeroController{
     public Label gameOverScoreLabel;
     @FXML
     public Label gameHighScoreLabel;
+    @FXML
+    public Label CherryScoreLabel;
     public void setScore(int score) {
         gameOverScoreLabel.setText("" + score);
     }
     public void setHighScore(int score){
         gameHighScoreLabel.setText("" + score);
+    }
+    public void setCherryScore(int score){
+        CherryScoreLabel.setText("Cherry : " + score);
     }
 }
