@@ -71,6 +71,7 @@ public class StickHeroController implements Controller,Runnable {
     private int cherryAvailable = 0;            // flag to check whether cherry is available or not
     private static int cherryScore = 0;
     private int cherryCollected = 0;            // Tracks whether cherry is collected or not
+    public static ArrayList<Cherry> Basket = new ArrayList<>();
     public int getINT_MAX() {
         return INT_MAX;
     }
@@ -138,7 +139,7 @@ public class StickHeroController implements Controller,Runnable {
 
         isMousePressed = true;
         // Call a method to increase the size of the stick
-// Note-- Max length of the stick can be 440 so that hero will never go to third tower
+        // Note-- Max length of the stick can be 440 so that hero will never go to third tower
         // update this
         increaseStickSize();
 
@@ -193,7 +194,10 @@ public class StickHeroController implements Controller,Runnable {
     }
     @Override
     public void run() {
-        transitions();
+//        System.out.println(Thread.currentThread().getId());
+        if(Thread.currentThread().getName().equals("move")){
+            transitions();
+        }
     }
 
     public void move(){
@@ -205,8 +209,8 @@ public class StickHeroController implements Controller,Runnable {
         double l = stick.getHeight();
         StickHeroController myRunnable = new StickHeroController();
 
-        Thread moveAll = new Thread(myRunnable);
-
+        Thread moveAll = new Thread(myRunnable,"move");
+        Thread removeCherry = new Thread(myRunnable,"delete");
         // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             keyEnabler = 0;
@@ -230,7 +234,7 @@ public class StickHeroController implements Controller,Runnable {
                     GameOver();
                 }else{
                     onTower = 1;
-
+//                    transitions();
                     // moveAll is a thread which calls transitions
                     moveAll.start();
                     try{
@@ -243,7 +247,18 @@ public class StickHeroController implements Controller,Runnable {
                         Random random = new Random();
                         produceCherry = random.nextInt(2);
                         if (produceCherry == 1){
+                            for(Cherry ch_:Basket){
+                                G1.getChildren().remove(ch_);
+                            }
+                            Basket.clear();
                             makeCherry();
+                        }
+                        else if(cherryCollected == 0){
+                            System.out.println("Cherry not collected");
+                            for(Cherry ch_:Basket){
+                                G1.getChildren().remove(ch_);
+                            }
+                            Basket.clear();
                         }
                     });
                 }
@@ -263,18 +278,21 @@ public class StickHeroController implements Controller,Runnable {
                         cherryCollected = 1;
                         // add collision handling code here
                     }
+//                    else if(cherryCollected == 0){
+//                        System.out.println("Cherry not collected");
+//                        G1.getChildren().remove(cherry);
+//                    }
                 }
             });
             heroScore++;
             Score.setText("Score :" + heroScore);
-
-
         }
     }
     public void makeCherry(){
         System.out.println("cherry created");
         Random random = new Random();
         cherry = new Cherry();
+        Basket.add(cherry);
         cherry.setFitHeight(30);
         cherry.setFitWidth(30);
         // 30 is cherry width
@@ -385,6 +403,7 @@ public class StickHeroController implements Controller,Runnable {
         cherryAvailable = 0;
         cherryScore = 0;
         cherryCollected = 0;
+        Basket.clear();
         game_maker();
 
         // To Remove the window where myScore label is there
@@ -483,6 +502,7 @@ public class StickHeroController implements Controller,Runnable {
         cherryScore = 0;
         onTower = 1;
         heroScore = 0;
+        Basket.clear();
         G1 = new Group();
         cherry_up = 0;
         cherryCollected = 0;
