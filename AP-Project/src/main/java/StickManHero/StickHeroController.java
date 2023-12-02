@@ -65,6 +65,7 @@ public class StickHeroController implements Controller,Runnable {
     static int highScore = 0;
     static boolean isFlipped = false;
     static int onTower = 1;
+    // Composite Design pattern has been used we instantiated controller object
     public StickHeroController controller;
     static int keyEnabler = 1;
     private Cherry cherry;
