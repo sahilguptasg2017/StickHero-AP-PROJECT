@@ -135,10 +135,6 @@ public class StickHeroController implements Controller,Runnable {
 
     @FXML
     public void clickmouse(javafx.scene.input.MouseEvent event) {
-//        if (cherryAvailable == 1 && cherryCollected == 0){
-//                G1.getChildren().remove(cherry);
-//            }
-
         isMousePressed = true;
         // Call a method to increase the size of the stick
         // Note-- Max length of the stick can be 440 so that hero will never go to third tower
@@ -529,8 +525,7 @@ public class StickHeroController implements Controller,Runnable {
                 G1.getChildren().add(r);
             }
         }
-//        for (int i=0;i)
-
+        // Singleton Design Pattern is used here only one instance of the class can be created
         h1 = new Hero();
         h1.setFitWidth(40);
         h1.setFitHeight(50);

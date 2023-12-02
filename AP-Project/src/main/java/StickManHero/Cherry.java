@@ -27,7 +27,8 @@ public class Cherry extends ImageView {
     }
 
     public Cherry(){
-        Image cherry = new Image("cherry.png") ;
+        // Smoothing of cherry image
+        Image cherry = new Image("cherry.png",30,30,true,true) ;
         setImage(cherry);
     }
 
