@@ -10,6 +10,8 @@ public class GameOverController extends StickHeroController{
     public Label gameHighScoreLabel;
     @FXML
     public Label CherryScoreLabel;
+    @FXML
+    public Label reviveMessage;
     public void setScore(int score) {
         gameOverScoreLabel.setText("" + score);
     }
@@ -18,5 +20,12 @@ public class GameOverController extends StickHeroController{
     }
     public void setCherryScore(int score){
         CherryScoreLabel.setText("Cherry : " + score);
+    }
+    public void setReviveMessage(int score){
+        if (score >= 5){
+            //code
+        }else{
+            //code
+        }
     }
 }

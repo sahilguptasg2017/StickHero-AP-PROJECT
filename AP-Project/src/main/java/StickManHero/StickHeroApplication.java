@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// WE WILL USE THREADS TO CONTROL HERO AND OUTPUT ON THE SCREEN
+// WE USED THREADS TO CONTROL THE HERO MOTION
 
 public class StickHeroApplication extends Application {
     private int x;

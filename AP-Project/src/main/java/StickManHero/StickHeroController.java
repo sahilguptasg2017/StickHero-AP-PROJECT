@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
@@ -44,13 +45,13 @@ public class StickHeroController implements Controller,Runnable {
     private static Label welcomeText;
     private static Label exitText;
     @FXML
-    public Label Score;
+    public Label Score;                       // Display current score in Scene-1.fxml
     @FXML
-    public Label myScore;
+    public Label myScore;        // Label for points scores in single attempt of the game in GameOverScene.fxml
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    public Label myCherry;
+    public Label myCherry;              // Label for cherry Score
 
     private static Stage stage;
     private static Scene scene;
@@ -78,6 +79,14 @@ public class StickHeroController implements Controller,Runnable {
     public int getINT_MAX() {
         return INT_MAX;
     }
+    private static int curr_rectangle  = 0;
+    private static Media media ;
+    private static MediaPlayer mediaPlayer ;
+    private static Media media_1 ;
+    private static MediaPlayer mediaPlayer_1 ;
+    private static Group G1 ;
+    public static Hero h0 ;
+    public static ImageView h1;
 
     public void setExitText(Label exitText) {
         this.exitText = exitText;
@@ -123,9 +132,7 @@ public class StickHeroController implements Controller,Runnable {
         this.stage = stage;
     }
 
-    private static Group G1 ;
-    public static Hero h0 ;
-    public static ImageView h1;
+
     public Timeline getTimeline() {
         return timeline;
     }
@@ -163,16 +170,7 @@ public class StickHeroController implements Controller,Runnable {
         }
     }
 
-    private static int curr_rectangle  = 0;
 
-    private static Media media ;
-
-    private static MediaPlayer mediaPlayer ;
-
-
-
-    private static Media media_1 ;
-    private static MediaPlayer mediaPlayer_1 ;
     @FXML
     public void unclickmouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
@@ -200,6 +198,18 @@ public class StickHeroController implements Controller,Runnable {
         }
     }
 
+    public void fallStick() {
+        // Translate the stick to a point (stick.getX(), stick.getY() + stick.getHeight())
+        Translate translate = new Translate(stick.getTranslateX(), stick.getTranslateY() + stick.getHeight());
+
+        // Rotate the stick by 90 degrees
+        Rotate rotate = new Rotate(90);
+
+        // Apply transformations in the desired order
+        stick.getTransforms().setAll(translate, rotate);
+    }
+
+
     public void move(){
         curr_rectangle ++ ;
         double x1 = rectangles.get(curr_rectangle - 1).getX();
@@ -217,7 +227,12 @@ public class StickHeroController implements Controller,Runnable {
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
-            move_hero.setOnFinished(endEvent->GameOver());
+            move_hero.setOnFinished(endEvent->{
+                GameOver();
+
+                // some bugs
+                fallStick();
+            });
             move_hero.play();
             Score.setText("Score: ");
             myCherry.setText("Cherry: ");
@@ -290,6 +305,27 @@ public class StickHeroController implements Controller,Runnable {
             Score.setText("Score :" + heroScore);
         }
     }
+    public void GameOver(){
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
+        translate.setToY(300f);
+        translate.setAutoReverse(true);
+        RotateTransition rotate = new RotateTransition(Duration.millis(1000));
+        rotate.setByAngle(360f);
+        PauseTransition pause = new PauseTransition(Duration.millis(5000));
+        ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
+        seqT.play();
+        if (heroScore > highScore) highScore = heroScore;
+
+        try{
+            Score.setText("Score : 0");
+            myCherry.setText("Cherry :" + cherryScore);
+            endScene();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
     public void makeCherry(){
         System.out.println("cherry created");
         Random random = new Random();
@@ -352,27 +388,7 @@ public class StickHeroController implements Controller,Runnable {
         // by setting this property to true, the audio will be played
         mediaPlayer_1.setAutoPlay(true);
     }
-    public void GameOver(){
-        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
-        translate.setToY(300f);
-        translate.setAutoReverse(true);
-        RotateTransition rotate = new RotateTransition(Duration.millis(1000));
-        rotate.setByAngle(360f);
-        PauseTransition pause = new PauseTransition(Duration.millis(5000));
-        ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
-        seqT.play();
-        if (heroScore > highScore) highScore = heroScore;
 
-        try{
-            Score.setText("Score :");
-            myCherry.setText("Cherry :");
-            endScene();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
     @FXML
     public void endScene() throws IOException{
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
@@ -405,7 +421,7 @@ public class StickHeroController implements Controller,Runnable {
         isFlipped = false;
         keyEnabler = 1;
         cherryAvailable = 0;
-        cherryScore = 0;
+//        cherryScore = 0;
         cherryCollected = 0;
         Basket.clear();
         game_maker();
@@ -490,26 +506,12 @@ public class StickHeroController implements Controller,Runnable {
         });
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
-
         game_maker();
 
         // Set separate event handlers for mouse pressed and released
 
     }
-
-    @FXML
-    public void game_maker() {
-        rectangles = new ArrayList<>();
-        isFlipped = false;
-        keyEnabler = 1;
-        cherryAvailable = 0;
-        cherryScore = 0;
-        onTower = 1;
-        heroScore = 0;
-        Basket.clear();
-        G1 = new Group();
-        cherry_up = 0;
-        cherryCollected = 0;
+    public void generateTowers(){
         for (int i = 0; i < getINT_MAX(); i++) {
             Random random = new Random();
             int width = 40 + random.nextInt(100);
@@ -527,10 +529,25 @@ public class StickHeroController implements Controller,Runnable {
                 G1.getChildren().add(r);
             }
         }
+    }
+
+    @FXML
+    public void game_maker() {
+        rectangles = new ArrayList<>();
+        isFlipped = false;
+        keyEnabler = 1;
+        cherryAvailable = 0;
+        onTower = 1;
+        heroScore = 0;
+        Basket.clear();
+        G1 = new Group();
+        cherry_up = 0;
+        cherryCollected = 0;
+        // This function is used to generate towers on the screen
+        generateTowers();
         // Singleton Design Pattern is used here only one instance of the class can be created
         h0 = Hero.getInstance();
         h1 = h0.getImageView();
-//        h1.getImageView().setVisible(true);
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
@@ -582,13 +599,11 @@ public class StickHeroController implements Controller,Runnable {
         // re-start the game
         heroScore = 0;
         curr_rectangle = 0;
+        cherryScore = 0;
         for(Stage stage: StickHeroApplication.openStages){
             stage.close();
         }
         StickHeroApplication.openStages.clear();
-
-        // Close the current stage
-//        currentStage.close();
 
         // Load the initial scene
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StickHero.fxml"));

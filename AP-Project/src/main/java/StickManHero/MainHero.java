@@ -1,6 +1,9 @@
 package StickManHero;
 
+import javafx.scene.image.ImageView;
+
 public interface MainHero {
-    public void makeStick();
-    public void run(int distance);
+    ImageView getImageView();
+    void makeStick();
+    void run();
 }

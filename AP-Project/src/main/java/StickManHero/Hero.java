@@ -1,14 +1,9 @@
 package StickManHero;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
+// This class implements Singleton Design pattern
 public class Hero extends ImageView implements MainHero {
-
 
     // The single instance of the Hero
     private static Hero instance;
@@ -41,7 +36,7 @@ public class Hero extends ImageView implements MainHero {
     }
 
     @Override
-    public void run(int distance) {
+    public void run() {
         System.out.println("Hero is Running");
     }
 }
