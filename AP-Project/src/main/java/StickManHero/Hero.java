@@ -8,69 +8,41 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Hero extends ImageView implements MainHero {
-    private static final int WIDTH = 980;
-    private static final int HEIGHT = 780;
-    private int score = 0;                  // score when hero jumps from one tower to another
-    private int speed = 10;                 // speed at which hero runs
-    private int highScore = 0;
-    Cherry myCherry;
-    Stick myStick;
-    Towers newTower;
-    public int getHighScore() {
-        return highScore;
+
+
+    // The single instance of the Hero
+    private static Hero instance;
+
+    // The image to be used for the Hero
+    private Image heroImage;
+
+    // Private constructor to prevent instantiation from outside
+    private Hero() {
+        // Load the image during the first instantiation
+        heroImage = new Image("hero_style1.png");
     }
 
-    public void setHighScore(int highScore) {
-        this.highScore = highScore;
-    }
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    // Public method to get the single instance of Hero
+    public static Hero getInstance() {
+        if (instance == null) {
+            instance = new Hero();
+        }
+        return instance;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+    // Public method to get the ImageView for the Hero
+    public ImageView getImageView() {
+        return new ImageView(heroImage);
     }
 
     @Override
-//    public void start(Stage stage) throws Exception {
-//        Pane root = new Pane();
-//        Scene scene = new Scene(root, WIDTH, HEIGHT);
-//
-//        Image image = new Image("hero_style1.png");
-//        ImageView imageView = new ImageView(image);
-//        imageView.setX(400);
-//        imageView.setY(400);
-//        imageView.setFitWidth(100);
-//        imageView.setFitHeight(100);
-//        root.getChildren().add(imageView);
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-
-    public void makeStick(){
-        //code
+    public void makeStick() {
+        System.out.println("Hero is Making stick");
     }
 
-    public void run(int distance){          // distance = stickLength
-        // code
+    @Override
+    public void run(int distance) {
+        System.out.println("Hero is Running");
     }
-
-    public static void main(String[] args) {
-//        launch();
-    }
-
-    Hero(){
-        Image hero = new Image("hero_style1.png") ;
-        setImage(hero);
-    }
-
 }
 

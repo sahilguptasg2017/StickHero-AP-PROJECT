@@ -124,7 +124,8 @@ public class StickHeroController implements Controller,Runnable {
     }
 
     private static Group G1 ;
-    public static Hero h1 ;
+    public static Hero h0 ;
+    public static ImageView h1;
     public Timeline getTimeline() {
         return timeline;
     }
@@ -527,7 +528,9 @@ public class StickHeroController implements Controller,Runnable {
             }
         }
         // Singleton Design Pattern is used here only one instance of the class can be created
-        h1 = new Hero();
+        h0 = Hero.getInstance();
+        h1 = h0.getImageView();
+//        h1.getImageView().setVisible(true);
         h1.setFitWidth(40);
         h1.setFitHeight(50);
         h1.setY(406);
