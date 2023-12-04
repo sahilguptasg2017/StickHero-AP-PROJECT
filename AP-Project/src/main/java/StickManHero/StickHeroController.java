@@ -1,12 +1,8 @@
 package StickManHero;
 
-import com.almasb.fxgl.entity.action.Action;
 import javafx.animation.*;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -15,15 +11,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -35,9 +30,11 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 // Add Interpolator to hero movement
 public class StickHeroController implements Controller,Runnable {
@@ -88,6 +85,10 @@ public class StickHeroController implements Controller,Runnable {
     public static Hero h0 ;
     public static ImageView h1;
     public static GameOverController newController;
+    @FXML
+    public Button heroButton;
+    @FXML
+    public Button cherryButton;
 
     public void setExitText(Label exitText) {
         this.exitText = exitText;
@@ -198,12 +199,12 @@ public class StickHeroController implements Controller,Runnable {
             transitions();
         }
     }
-    public void setCherryScore(){
-        myCherry.setText("Cherry :" + cherryScore);
-    }
-    public void setHeroScore(){
-        myScore.setText("Score :"+ heroScore);
-    }
+//    public void setCherryScore(){
+//        myCherry.setText("Cherry :" + cherryScore);
+//    }
+//    public void setHeroScore(){
+//        myScore.setText("Score :"+ heroScore);
+//    }
 
     public void fallStick() {
         // Translate the stick to a point (stick.getX(), stick.getY() + stick.getHeight())
@@ -242,8 +243,13 @@ public class StickHeroController implements Controller,Runnable {
                 fallStick();
             });
             move_hero.play();
-            Score.setText("Score: ");
-            myCherry.setText("Cherry: ");
+//            Score.setText("Score: ");
+            // Update UI components on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                setHeroScore(heroScore);
+            });
+//            myCherry.setText("Cherry: ");
+//            setCherryScore(cherryScore);
             // game-over
 //            System.exit(0);
         }else{
@@ -313,10 +319,35 @@ public class StickHeroController implements Controller,Runnable {
                 }
             });
             heroScore++;
-            Score.setText("Score :" + heroScore);
+            // Update UI components on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                setHeroScore(heroScore);
+            });
+//            Score.setText("Score :" + heroScore);
+//            heroButton.setText(Integer.toString(heroScore));
         }
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Additional initialization code...
+
+        // Accessing FXML components can be safely done here
+    }
     public static final int reviveCherries = 3;
+
+//    public void initialize(){
+//        heroButton.setText("0");
+//        cherryButton.setText("0");
+//    }
+
+    public void setHeroScore(int score){
+        heroButton.setText(Integer.toString(score));
+    }
+
+    public void setCherryScore(int score){
+        cherryButton.setText(Integer.toString(score));
+    }
     @FXML
     public void revive(){
         if (cherryScore >= reviveCherries){
@@ -335,7 +366,7 @@ public class StickHeroController implements Controller,Runnable {
             // To Remove the window where myScore label is there
             ((Stage) myScore.getScene().getWindow()).close();
             game_maker();
-            controller.setCherryScore();
+//            controller.setCherryScore();
 
 
         }else{
@@ -358,8 +389,13 @@ public class StickHeroController implements Controller,Runnable {
         if (heroScore > highScore) highScore = heroScore;
 
         try{
-            Score.setText("Score : 0");
-            myCherry.setText("Cherry :" + cherryScore);
+//            Score.setText("Score : 0");
+            // Update UI components on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                setHeroScore(heroScore);
+            });
+//            myCherry.setText("Cherry :" + cherryScore);
+//            setCherryScore(cherryScore);
             endScene();
         }catch(Exception e){
             e.printStackTrace();
