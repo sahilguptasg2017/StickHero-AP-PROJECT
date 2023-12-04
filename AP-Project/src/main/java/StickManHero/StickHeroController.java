@@ -87,6 +87,7 @@ public class StickHeroController implements Controller,Runnable {
     private static Group G1 ;
     public static Hero h0 ;
     public static ImageView h1;
+    public static GameOverController newController;
 
     public void setExitText(Label exitText) {
         this.exitText = exitText;
@@ -197,6 +198,12 @@ public class StickHeroController implements Controller,Runnable {
             transitions();
         }
     }
+    public void setCherryScore(){
+        myCherry.setText("Cherry :" + cherryScore);
+    }
+    public void setHeroScore(){
+        myScore.setText("Score :"+ heroScore);
+    }
 
     public void fallStick() {
         // Translate the stick to a point (stick.getX(), stick.getY() + stick.getHeight())
@@ -228,8 +235,9 @@ public class StickHeroController implements Controller,Runnable {
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->{
+                System.out.println(h1.getX());
                 GameOver();
-
+                System.out.println(h1.getX());
                 // some bugs
                 fallStick();
             });
@@ -246,6 +254,9 @@ public class StickHeroController implements Controller,Runnable {
             // System.out.println("sw");
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->{
+                // Prints location of the hero
+                System.out.println(h1.getX());
+
                 if (isFlipped){
                     GameOver();
                 }else{
@@ -305,6 +316,35 @@ public class StickHeroController implements Controller,Runnable {
             Score.setText("Score :" + heroScore);
         }
     }
+    public static final int reviveCherries = 3;
+    @FXML
+    public void revive(){
+        if (cherryScore >= reviveCherries){
+            cherryScore -= reviveCherries;
+//            myCherry.setText("Cherry :"+ cherryScore);
+            rectangles.clear();
+            G1.getChildren().clear();
+            // resume the game
+            curr_rectangle = 0;
+            onTower = 1;
+            isFlipped = false;
+            keyEnabler = 1;
+            cherryAvailable = 0;
+            cherryCollected = 0;
+            Basket.clear();
+            // To Remove the window where myScore label is there
+            ((Stage) myScore.getScene().getWindow()).close();
+            game_maker();
+            controller.setCherryScore();
+
+
+        }else{
+            //code to Display for having not enough cherries
+            newController.setReviveMessage(cherryScore);
+
+        }
+
+    }
     public void GameOver(){
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         translate.setToY(300f);
@@ -314,6 +354,7 @@ public class StickHeroController implements Controller,Runnable {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
 
         try{
@@ -323,8 +364,45 @@ public class StickHeroController implements Controller,Runnable {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    @FXML
+    public void endScene() throws IOException{
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
+        Parent rootOver = loader2.load();
+        newController = loader2.getController();
+        newController.setScore(heroScore);
+        newController.setHighScore(highScore);
+        newController.setCherryScore(cherryScore);
+        // Create new stage
+        Stage gameOverStage = new Stage();
+        Scene scene2 = new Scene(rootOver);
+        gameOverStage.setTitle("Game Over");
+        Image icon = new Image("icon.png");
+        gameOverStage.getIcons().add(icon);
+        gameOverStage.setScene(scene2);
 
+        // Show the stage
+        gameOverStage.show();
 
+    }
+    @FXML
+    public void PlayAgain(ActionEvent event) throws IOException{
+        // clear all nodes from previous scene
+        rectangles.clear();
+        G1.getChildren().clear();
+        // re-start the game
+        heroScore = 0;
+        curr_rectangle = 0;
+        onTower = 1;
+        isFlipped = false;
+        keyEnabler = 1;
+        cherryAvailable = 0;
+        cherryCollected = 0;
+        Basket.clear();
+        game_maker();
+
+        // To Remove the window where myScore label is there
+        ((Stage) myScore.getScene().getWindow()).close();
     }
     public void makeCherry(){
         System.out.println("cherry created");
@@ -389,47 +467,6 @@ public class StickHeroController implements Controller,Runnable {
         mediaPlayer_1.setAutoPlay(true);
     }
 
-    @FXML
-    public void endScene() throws IOException{
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("GameOverScene.fxml"));
-        Parent rootOver = loader2.load();
-        GameOverController newController = loader2.getController();
-        newController.setScore(heroScore);
-        newController.setHighScore(highScore);
-        newController.setCherryScore(cherryScore);
-        // Create new stage
-        Stage gameOverStage = new Stage();
-        Scene scene2 = new Scene(rootOver);
-        gameOverStage.setTitle("Game Over");
-        Image icon = new Image("icon.png");
-        gameOverStage.getIcons().add(icon);
-        gameOverStage.setScene(scene2);
-
-        // Show the stage
-        gameOverStage.show();
-
-    }
-    @FXML
-    public void PlayAgain(ActionEvent event) throws IOException{
-        // clear all nodes from previous scene
-        rectangles.clear();
-        G1.getChildren().clear();
-        // re-start the game
-        heroScore = 0;
-        curr_rectangle = 0;
-        onTower = 1;
-        isFlipped = false;
-        keyEnabler = 1;
-        cherryAvailable = 0;
-//        cherryScore = 0;
-        cherryCollected = 0;
-        Basket.clear();
-        game_maker();
-
-        // To Remove the window where myScore label is there
-        ((Stage) myScore.getScene().getWindow()).close();
-    }
-
     private void increaseStickSize() {
         // Set up a timeline to increase the stick size continuously
         timeline = new Timeline(new KeyFrame(Duration.millis(8), event -> {
@@ -442,9 +479,6 @@ public class StickHeroController implements Controller,Runnable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-
-
-
 
     private void makeStickHorizontal() {
         // Add animation to make the stick horizontal
@@ -538,7 +572,6 @@ public class StickHeroController implements Controller,Runnable {
         keyEnabler = 1;
         cherryAvailable = 0;
         onTower = 1;
-        heroScore = 0;
         Basket.clear();
         G1 = new Group();
         cherry_up = 0;
@@ -564,7 +597,6 @@ public class StickHeroController implements Controller,Runnable {
         System.out.println("Initial y:" + stick.getY());
         G1.getChildren().add(stick);
         ((Pane) newSceneRoot).getChildren().add(G1);
-
     }
 
     @FXML

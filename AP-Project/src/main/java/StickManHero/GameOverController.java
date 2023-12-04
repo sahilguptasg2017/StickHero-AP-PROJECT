@@ -11,7 +11,7 @@ public class GameOverController extends StickHeroController{
     @FXML
     public Label CherryScoreLabel;
     @FXML
-    public Label reviveMessage;
+    public Label reviveMessageLabel;
     public void setScore(int score) {
         gameOverScoreLabel.setText("" + score);
     }
@@ -22,10 +22,12 @@ public class GameOverController extends StickHeroController{
         CherryScoreLabel.setText("Cherry : " + score);
     }
     public void setReviveMessage(int score){
-        if (score >= 5){
-            //code
-        }else{
-            //code
+        if (score < reviveCherries) {
+            if (score == 1) {
+                reviveMessageLabel.setText("Oops!! Insufficient cherry");
+            } else {
+                reviveMessageLabel.setText("Oops!! Insufficient cherries");
+            }
         }
     }
 }

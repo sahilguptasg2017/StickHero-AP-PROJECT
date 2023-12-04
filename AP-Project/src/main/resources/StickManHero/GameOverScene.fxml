@@ -13,7 +13,7 @@
       <Label fx:id="gameOverScoreLabel" layoutX="188.0" layoutY="78.0" text="Label" />
       <Label fx:id="gameHighScoreLabel" layoutX="187.0" layoutY="163.0" text="Label" />
       <Label fx:id="CherryScoreLabel" layoutX="182.0" layoutY="200.0" text="Cherry" />
-      <Button layoutX="286.0" layoutY="292.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="63.0" text="Revive" />
-      <Label fx:id="reviveMessage" layoutX="124.0" layoutY="240.0" prefHeight="18.0" prefWidth="156.0" text="Revive Hero using 5 Cherries" />
+      <Button layoutX="286.0" layoutY="292.0" mnemonicParsing="false" onAction="#revive" prefHeight="46.0" prefWidth="63.0" text="Revive" />
+      <Label fx:id="reviveMessageLabel" layoutX="124.0" layoutY="240.0" prefHeight="18.0" prefWidth="156.0" text="Revive Hero using 5 Cherries" />
    </children>
 </AnchorPane>
