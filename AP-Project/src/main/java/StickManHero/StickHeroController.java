@@ -64,7 +64,7 @@ public class StickHeroController implements Controller,Runnable {
     static boolean isFlipped = false;
     static int onTower = 1;
     // Composite Design pattern has been used we instantiated controller object
-    public StickHeroController controller;
+    public Controller controller;
     static int keyEnabler = 1;
     private Cherry cherry;
     private int cherry_up = 0;
@@ -124,6 +124,16 @@ public class StickHeroController implements Controller,Runnable {
 
     public void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public int getStickSize(Stick stick){
+        return stick.getLength();
+    }
+    public int getHeroScore(){
+        return heroScore;
+    }
+    public int getCherryScore(){
+        return cherryScore;
     }
 
     public Stage getStage() {
@@ -547,7 +557,9 @@ public class StickHeroController implements Controller,Runnable {
 //        newSceneRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Scene-1.fxml")));
         newSceneRoot = loader.load();
         // set-up controller for scene-1
+        controller = (StickHeroController) controller;
         controller = loader.getController();
+
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -572,7 +584,9 @@ public class StickHeroController implements Controller,Runnable {
         sequentialTransition.setOnFinished(e -> {
             stage.setScene(new Scene(newSceneRoot));
             stage.show();
-            controller.anchorPane.requestFocus();
+
+            // Polymorphism is used here
+            ((StickHeroController) controller).anchorPane.requestFocus();
         });
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
@@ -706,7 +720,6 @@ public class StickHeroController implements Controller,Runnable {
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
     }
-
     @Override
     public void onStartButtonClick() throws IOException {
     }
