@@ -85,10 +85,10 @@ public class StickHeroController implements Controller,Runnable {
     public static Hero h0 ;
     public static ImageView h1;
     public static GameOverController newController;
+
+    private static boolean needInitialize = false;
     @FXML
-    public Button heroButton;
-    @FXML
-    public Button cherryButton;
+    public Button heroButton;               // counts score for hero
 
     public void setExitText(Label exitText) {
         this.exitText = exitText;
@@ -155,13 +155,12 @@ public class StickHeroController implements Controller,Runnable {
     private boolean isKeyPressed = false;
 
     @FXML
-    public void clickmouse(javafx.scene.input.MouseEvent event) {
+    public void clickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = true;
         // Call a method to increase the size of the stick
         // Note-- Max length of the stick can be 440 so that hero will never go to third tower
         // update this
         increaseStickSize();
-
     }
     @FXML
     public void keyPressed(javafx.scene.input.KeyEvent event){
@@ -184,7 +183,7 @@ public class StickHeroController implements Controller,Runnable {
 
 
     @FXML
-    public void unclickmouse(javafx.scene.input.MouseEvent event) {
+    public void unClickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
         // Stop the timeline to prevent further growth
         if (timeline != null) {
@@ -249,8 +248,8 @@ public class StickHeroController implements Controller,Runnable {
                 System.out.println(h1.getX());
                 GameOver();
                 System.out.println(h1.getX());
-                // some bugs
-                fallStick();
+
+//                fallStick();
             });
             move_hero.play();
 //            Score.setText("Score: ");
@@ -355,14 +354,11 @@ public class StickHeroController implements Controller,Runnable {
         heroButton.setText(Integer.toString(score));
     }
 
-    public void setCherryScore(int score){
-        cherryButton.setText(Integer.toString(score));
-    }
     @FXML
     public void revive(){
         if (cherryScore >= reviveCherries){
             cherryScore -= reviveCherries;
-//            myCherry.setText("Cherry :"+ cherryScore);
+            myCherry.setText("Cherry :"+ cherryScore);
             rectangles.clear();
             G1.getChildren().clear();
             // resume the game
@@ -377,8 +373,6 @@ public class StickHeroController implements Controller,Runnable {
             ((Stage) myScore.getScene().getWindow()).close();
             game_maker();
 //            controller.setCherryScore();
-
-
         }else{
             //code to Display for having not enough cherries
             newController.setReviveMessage(cherryScore);
@@ -444,6 +438,7 @@ public class StickHeroController implements Controller,Runnable {
         keyEnabler = 1;
         cherryAvailable = 0;
         cherryCollected = 0;
+        needInitialize = true;
         Basket.clear();
         game_maker();
 
@@ -615,7 +610,7 @@ public class StickHeroController implements Controller,Runnable {
         }
     }
 
-    @FXML
+//    @FXML
     public void game_maker() {
         rectangles = new ArrayList<>();
         isFlipped = false;
