@@ -71,6 +71,7 @@ public class StickHeroController implements Controller,Runnable {
     private int produceCherry = 1;
     private int cherryAvailable = 0;            // flag to check whether cherry is available or not
     private static int cherryScore = 0;
+    private int cherryScoreDup = 0;
     private int cherryCollected = 0;            // Tracks whether cherry is collected or not
     public static ArrayList<Cherry> Basket = new ArrayList<>();
     public int getINT_MAX() {
@@ -307,6 +308,7 @@ public class StickHeroController implements Controller,Runnable {
             });
             move_hero.play();
             h1.translateXProperty().addListener((obs, oldX, newX) -> {
+                myCherry.setText("Cherry :"+ cherryScore);
                 if (cherryAvailable == 1){
                     Bounds b1 = h1.getBoundsInParent();
                     Bounds b2 = cherry.getBoundsInParent();
@@ -331,6 +333,7 @@ public class StickHeroController implements Controller,Runnable {
             // Update UI components on the JavaFX Application Thread
             Platform.runLater(() -> {
                 setHeroScore(heroScore);
+                myCherry.setText("Cherry :"+ cherryScore);
             });
 //            Score.setText("Score :" + heroScore);
 //            heroButton.setText(Integer.toString(heroScore));
@@ -340,10 +343,9 @@ public class StickHeroController implements Controller,Runnable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Additional initialization code...
-
         // Accessing FXML components can be safely done here
     }
-    public static final int reviveCherries = 3;
+    public static final int reviveCherries = 2;
 
 //    public void initialize(){
 //        heroButton.setText("0");
@@ -354,11 +356,13 @@ public class StickHeroController implements Controller,Runnable {
         heroButton.setText(Integer.toString(score));
     }
 
+    public void updateCherryScore(int score){
+//        myCherry.setText("Cherry: " + score);
+    }
     @FXML
     public void revive(){
         if (cherryScore >= reviveCherries){
             cherryScore -= reviveCherries;
-            myCherry.setText("Cherry :"+ cherryScore);
             rectangles.clear();
             G1.getChildren().clear();
             // resume the game
@@ -369,9 +373,13 @@ public class StickHeroController implements Controller,Runnable {
             cherryAvailable = 0;
             cherryCollected = 0;
             Basket.clear();
+            newController.setParentController(this);
+            newController.updateCherryScoreInParent(cherryScore);
             // To Remove the window where myScore label is there
             ((Stage) myScore.getScene().getWindow()).close();
+
             game_maker();
+//            myCherry.setText("Cherry :"+ cherryScore);
 //            controller.setCherryScore();
         }else{
             //code to Display for having not enough cherries
@@ -397,8 +405,8 @@ public class StickHeroController implements Controller,Runnable {
             // Update UI components on the JavaFX Application Thread
             Platform.runLater(() -> {
                 setHeroScore(heroScore);
+//                myCherry.setText("0");
             });
-//            myCherry.setText("Cherry :" + cherryScore);
 //            setCherryScore(cherryScore);
             endScene();
         }catch(Exception e){
@@ -413,6 +421,7 @@ public class StickHeroController implements Controller,Runnable {
         newController.setScore(heroScore);
         newController.setHighScore(highScore);
         newController.setCherryScore(cherryScore);
+        cherryScoreDup = cherryScore;
         // Create new stage
         Stage gameOverStage = new Stage();
         Scene scene2 = new Scene(rootOver);
@@ -454,7 +463,7 @@ public class StickHeroController implements Controller,Runnable {
         cherry.setFitWidth(30);
         // 30 is cherry width
         int min = (int) (10 + rectangles.get(curr_rectangle-1).getWidth() + 30);
-        int max = 300 - 30;
+        int max = 300 - 30 - 30;
         int range = max-min;
         cherry.setX(min + random.nextInt(range));
         System.out.println("cherry coordinate: "+ cherry.getX());
@@ -669,6 +678,12 @@ public class StickHeroController implements Controller,Runnable {
             }
         });
     }
+
+    @Override
+    public void onStartButtonClick() throws IOException {
+        //code
+    }
+
     @FXML
     private void goToHome(ActionEvent event) throws IOException {
         rectangles.clear();
@@ -715,9 +730,4 @@ public class StickHeroController implements Controller,Runnable {
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
     }
-    @Override
-    public void onStartButtonClick() throws IOException {
-    }
-
-
 }
