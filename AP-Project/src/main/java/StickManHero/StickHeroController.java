@@ -2,7 +2,6 @@ package StickManHero;
 
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,6 +66,7 @@ public class StickHeroController implements Controller,Runnable {
 
     static boolean isFlipped = false;
     static int onTower = 1;
+
     // Composite Design pattern has been used we instantiated controller object
     public Controller controller;
     static int keyEnabler = 1;
@@ -163,9 +163,6 @@ public class StickHeroController implements Controller,Runnable {
     public void clickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = true;
         increaseStickSize();
-        // Call a method to increase the size of the stick
-        // Note-- Max length of the stick can be 440 so that hero will never go to third tower
-        // update this
     }
     @FXML
     public void keyPressed(javafx.scene.input.KeyEvent event){
@@ -207,17 +204,10 @@ public class StickHeroController implements Controller,Runnable {
         }
     @Override
     public void run() {
-//        System.out.println(Thread.currentThread().getId());
         if(Thread.currentThread().getName().equals("move")){
             transitions();
         }
     }
-//    public void setCherryScore(){
-//        myCherry.setText("Cherry :" + cherryScore);
-//    }
-//    public void setHeroScore(){
-//        myScore.setText("Score :"+ heroScore);
-//    }
 
     public void fallStick() {
         // Translate the stick to a point (stick.getX(), stick.getY() + stick.getHeight())
@@ -245,7 +235,7 @@ public class StickHeroController implements Controller,Runnable {
         Thread moveAll = new Thread(myRunnable,"move");
         // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
-            keyEnabler = 0;
+//            keyEnabler = 0;
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
