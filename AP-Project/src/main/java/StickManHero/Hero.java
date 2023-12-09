@@ -2,6 +2,8 @@ package StickManHero;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 // This class implements Singleton Design pattern
 public class Hero extends ImageView implements MainHero {
 
@@ -38,6 +40,21 @@ public class Hero extends ImageView implements MainHero {
     @Override
     public void run() {
         System.out.println("Hero is Running");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Hero hero = (Hero) o;
+
+        return Objects.equals(heroImage, hero.heroImage);
+    }
+
+    @Override
+    public int hashCode() {
+        return heroImage != null ? heroImage.hashCode() : 0;
     }
 }
 
