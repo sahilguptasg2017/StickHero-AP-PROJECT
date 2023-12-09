@@ -2,6 +2,7 @@ package StickManHero;
 
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,22 +22,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.io.*;
+import java.util.*;
 
 // Add Interpolator to hero movement
 public class StickHeroController implements Controller,Runnable {
@@ -61,8 +55,16 @@ public class StickHeroController implements Controller,Runnable {
     private static Rectangle stick;
     private static boolean isMousePressed = false;
     private   Timeline timeline ;
-    static int heroScore = 0;
-    static int highScore = 0;
+    private static int heroScore = 0;
+    private static int highScore = 0;
+    public static int getHighScore() throws FileNotFoundException {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        StickHeroController.highScore = highScore;
+    }
+
     static boolean isFlipped = false;
     static int onTower = 1;
     // Composite Design pattern has been used we instantiated controller object
@@ -157,13 +159,18 @@ public class StickHeroController implements Controller,Runnable {
     }
     private boolean isKeyPressed = false;
 
+    private int mouseClickable = 1;
+    private int mouseUnClickable = 1;
+
     @FXML
     public void clickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = true;
+        if (mouseClickable == 1){
+            increaseStickSize();
+        }
         // Call a method to increase the size of the stick
         // Note-- Max length of the stick can be 440 so that hero will never go to third tower
         // update this
-        increaseStickSize();
     }
     @FXML
     public void keyPressed(javafx.scene.input.KeyEvent event){
@@ -189,20 +196,21 @@ public class StickHeroController implements Controller,Runnable {
     public void unClickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
         // Stop the timeline to prevent further growth
-        if (timeline != null) {
-            timeline.stop();
+        if (mouseUnClickable == 1){
+            if (timeline != null) {
+                timeline.stop();
+            }
+            // Call a method to make the stick horizontal
+            makeStickHorizontal();
+
+            // some delay
+            PauseTransition pause = new PauseTransition(Duration.millis(300));
+            pause.setOnFinished(afterPause->{
+                onTower = 0;
+                move();
+            });
+            pause.play();
         }
-        // Call a method to make the stick horizontal
-        makeStickHorizontal();
-
-        // some delay
-        PauseTransition pause = new PauseTransition(Duration.millis(300));
-        pause.setOnFinished(afterPause->{
-            onTower = 0;
-            move();
-        });
-        pause.play();
-
     }
     @Override
     public void run() {
@@ -351,11 +359,6 @@ public class StickHeroController implements Controller,Runnable {
     }
     public static final int reviveCherries = 2;
 
-//    public void initialize(){
-//        heroButton.setText("0");
-//        cherryButton.setText("0");
-//    }
-
     public void setHeroScore(int score){
         heroButton.setText(Integer.toString(score));
     }
@@ -388,9 +391,7 @@ public class StickHeroController implements Controller,Runnable {
         }else{
             //code to Display for having not enough cherries
             newController.setReviveMessage(cherryScore);
-
         }
-
     }
     public void GameOver() throws IOException {
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
@@ -406,7 +407,8 @@ public class StickHeroController implements Controller,Runnable {
         BufferedWriter out = new BufferedWriter(new FileWriter("C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
         try{
             System.out.println("Score written");
-            out.write(highScore);
+            out.write(Integer.toString(highScore) + " ");
+            out.write(Integer.toString(cherryScore));
         }catch(Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -556,6 +558,13 @@ public class StickHeroController implements Controller,Runnable {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException {
+        Scanner in = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\GameState.txt")));
+        if (in.hasNext()){
+            System.out.println("File read");
+            highScore = Integer.parseInt(in.next());
+            cherryScore = Integer.parseInt(in.next());
+        }
+
         String path = "AP-Project\\src\\main\\java\\StickManHero\\sound_1.mp3";
 
         // Instantiating Media class
@@ -608,6 +617,7 @@ public class StickHeroController implements Controller,Runnable {
         // Start the combined fade-out and fade-in transition
         sequentialTransition.play();
         game_maker();
+//        myCherry.setText("" + cherryScore);
 
         // Set separate event handlers for mouse pressed and released
 
@@ -632,8 +642,10 @@ public class StickHeroController implements Controller,Runnable {
         }
     }
 
-//    @FXML
+    @FXML
     public void game_maker() {
+        mouseClickable = 1;
+        mouseUnClickable = 1;
         rectangles = new ArrayList<>();
         isFlipped = false;
         keyEnabler = 1;
@@ -663,6 +675,7 @@ public class StickHeroController implements Controller,Runnable {
         System.out.println("Initial x:" + stick.getX());
         System.out.println("Initial y:" + stick.getY());
         G1.getChildren().add(stick);
+
         ((Pane) newSceneRoot).getChildren().add(G1);
     }
 
@@ -704,7 +717,6 @@ public class StickHeroController implements Controller,Runnable {
         // re-start the game
         heroScore = 0;
         curr_rectangle = 0;
-        cherryScore = 0;
         for(Stage stage: StickHeroApplication.openStages){
             stage.close();
         }
