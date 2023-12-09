@@ -9,5 +9,11 @@ public class Cherry extends ImageView {
         Image cherry = new Image("cherry.png",30,30,true,true) ;
         setImage(cherry);
     }
+    private int cherry_score ;
+
+    public static int getCherry_score() {
+        return 0;
+    }
+
 
 }

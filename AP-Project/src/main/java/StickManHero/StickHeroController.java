@@ -19,17 +19,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Scanner;
 
 // Add Interpolator to hero movement
 public class StickHeroController implements Controller,Runnable {
@@ -86,6 +88,8 @@ public class StickHeroController implements Controller,Runnable {
     private static MediaPlayer mediaPlayer ;
     private static Media media_1 ;
     private static MediaPlayer mediaPlayer_1 ;
+    private static MediaPlayer mediaPlayer_2 ;
+    private static Media media_2 ;
     private static Group G1 ;
     public static Hero h0 ;
     public static ImageView h1;
@@ -131,9 +135,6 @@ public class StickHeroController implements Controller,Runnable {
         this.scene = scene;
     }
 
-    public int getStickSize(Stick stick){
-        return stick.getLength();
-    }
     public int getHeroScore(){
         return heroScore;
     }
@@ -330,7 +331,7 @@ public class StickHeroController implements Controller,Runnable {
     public void pause(){
         PauseTransition p = new PauseTransition();
     }
-    public static final int reviveCherries = 2;
+    public static final int reviveCherries = 5;
 
     public void setHeroScore(int score){
         heroButton.setText(Integer.toString(score));
@@ -375,6 +376,15 @@ public class StickHeroController implements Controller,Runnable {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        String path_3 = "AP-Project\\src\\main\\java\\StickManHero\\death.mp3";
+
+        media_2 = new Media(new File(path_3).toURI().toString());
+
+        // Instantiating MediaPlayer class
+        mediaPlayer_2 = new MediaPlayer(media_2);
+
+        // by setting this property to true, the audio will be played
+        mediaPlayer_2.setAutoPlay(true);
         // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
         BufferedWriter out = new BufferedWriter(new FileWriter("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
@@ -485,7 +495,9 @@ public class StickHeroController implements Controller,Runnable {
     }
     public void makeNewStick(){
         Rectangle new_stick = new Rectangle() ;
-
+        Stick s1 = new Stick() ;
+        s1.setWidth(new_stick.getWidth());
+        s1.setLength(new_stick.getHeight());
         new_stick.setWidth(3);
         new_stick.setHeight(1);
         new_stick.setY(455);
@@ -647,7 +659,9 @@ public class StickHeroController implements Controller,Runnable {
         G1.getChildren().add(h1);
 
         stick = new Rectangle();
-
+        Stick s1= new Stick() ;
+        s1.setWidth(stick.getWidth());
+        s1.setLength(stick.getHeight());
         stick.setWidth(3);
         stick.setHeight(1);
         stick.setY(455);

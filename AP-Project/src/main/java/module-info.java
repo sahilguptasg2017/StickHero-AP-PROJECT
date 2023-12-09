@@ -9,6 +9,7 @@ module project.ap_project {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires javafx.media;
+    requires junit;
 
     opens StickManHero to javafx.fxml;
     exports StickManHero;

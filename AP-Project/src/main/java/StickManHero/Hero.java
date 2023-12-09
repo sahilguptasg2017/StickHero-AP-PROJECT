@@ -56,5 +56,12 @@ public class Hero extends ImageView implements MainHero {
     public int hashCode() {
         return heroImage != null ? heroImage.hashCode() : 0;
     }
+    private int hero_score ;
+
+    public static int getHero_score() {
+        return 0 ;
+    }
+
+
 }
 
