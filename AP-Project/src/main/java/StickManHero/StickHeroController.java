@@ -85,9 +85,7 @@ public class StickHeroController implements Controller,Runnable {
     private static Media media ;
     private static MediaPlayer mediaPlayer ;
     private static Media media_1 ;
-    private static Media media_2 ;
     private static MediaPlayer mediaPlayer_1 ;
-    private static MediaPlayer mediaPlayer_2 ;
     private static Group G1 ;
     public static Hero h0 ;
     public static ImageView h1;
@@ -211,17 +209,6 @@ public class StickHeroController implements Controller,Runnable {
         }
     }
 
-    public void fallStick() {
-        // Translate the stick to a point (stick.getX(), stick.getY() + stick.getHeight())
-        Translate translate = new Translate(stick.getTranslateX(), stick.getTranslateY() + stick.getHeight());
-
-        // Rotate the stick by 90 degrees
-        Rotate rotate = new Rotate(90);
-
-        // Apply transformations in the desired order
-        stick.getTransforms().setAll(translate, rotate);
-    }
-
 
     public void move(){
         curr_rectangle ++ ;
@@ -235,9 +222,8 @@ public class StickHeroController implements Controller,Runnable {
         StickHeroController myRunnable = new StickHeroController();
 
         Thread moveAll = new Thread(myRunnable,"move");
-        // 3 is stick(rectangle) width
+
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
-//            keyEnabler = 0;
             double heronewX = l + 20;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
             move_hero.setByX(heronewX);
@@ -248,30 +234,23 @@ public class StickHeroController implements Controller,Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println(h1.getX());
-
-//                fallStick();
             });
             move_hero.play();
-//            Score.setText("Score: ");
+
             // Update UI components on the JavaFX Application Thread
             Platform.runLater(() -> {
                 setHeroScore(heroScore);
             });
-//            myCherry.setText("Cherry: ");
-//            setCherryScore(cherryScore);
-            // game-over
-//            System.exit(0);
+
         }else{
 
         //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
             double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
             TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
-            // System.out.println("sw");
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->{
                 // Prints location of the hero
-                System.out.println(h1.getX());
+//                System.out.println(h1.getX());
 
                 if (isFlipped){
                     try {
@@ -281,7 +260,7 @@ public class StickHeroController implements Controller,Runnable {
                     }
                 }else{
                     onTower = 1;
-//                    transitions();
+
                     // moveAll is a thread which calls transitions
                     moveAll.start();
                     try{
@@ -290,23 +269,28 @@ public class StickHeroController implements Controller,Runnable {
                         e.printStackTrace();
                     }
                     Platform.runLater(() ->{
-                        makeNewStick();
-                        Random random = new Random();
-                        produceCherry = random.nextInt(2);
-                        if (produceCherry == 1){
-                            for(Cherry ch_:Basket){
-                                G1.getChildren().remove(ch_);
+                        PauseTransition pause = new PauseTransition(Duration.millis(300));
+                        pause.setOnFinished(afterPause->{
+                            makeNewStick();
+                            Random random = new Random();
+                            produceCherry = random.nextInt(2);
+                            if (produceCherry == 1){
+                                for(Cherry ch_:Basket){
+                                    G1.getChildren().remove(ch_);
+                                }
+                                Basket.clear();
+                                makeCherry();
                             }
-                            Basket.clear();
-                            makeCherry();
-                        }
-                        else if(cherryCollected == 0){
-                            System.out.println("Cherry not collected");
-                            for(Cherry ch_:Basket){
-                                G1.getChildren().remove(ch_);
+                            else if(cherryCollected == 0){
+//                            System.out.println("Cherry not collected");
+                                for(Cherry ch_:Basket){
+                                    G1.getChildren().remove(ch_);
+                                }
+                                Basket.clear();
                             }
-                            Basket.clear();
-                        }
+                        });
+                        pause.play();
+
                     });
                 }
             });
@@ -319,8 +303,8 @@ public class StickHeroController implements Controller,Runnable {
 
                     if(b1.intersects(b2)){
                         G1.getChildren().remove(cherry);
-                        System.out.println("Cherry collected");
-                        System.out.println("Collision detected!");
+//                        System.out.println("Cherry collected");
+//                        System.out.println("Collision detected!");
                         cherryScore++;
                         myCherry.setText("Cherry :"+ cherryScore);
                         cherryAvailable = 0;
@@ -343,7 +327,10 @@ public class StickHeroController implements Controller,Runnable {
 //            heroButton.setText(Integer.toString(heroScore));
         }
     }
-    public static final int reviveCherries = 5;
+    public void pause(){
+        PauseTransition p = new PauseTransition();
+    }
+    public static final int reviveCherries = 2;
 
     public void setHeroScore(int score){
         heroButton.setText(Integer.toString(score));
@@ -388,20 +375,11 @@ public class StickHeroController implements Controller,Runnable {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
-        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\death.mp3";
-
-        media_2 = new Media(new File(path_1).toURI().toString());
-
-        // Instantiating MediaPlayer class
-        mediaPlayer_2 = new MediaPlayer(media_2);
-
-        // by setting this property to true, the audio will be played
-        mediaPlayer_2.setAutoPlay(true);
         // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
         BufferedWriter out = new BufferedWriter(new FileWriter("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
         try{
-            System.out.println("Score written");
+//            System.out.println("Score written");
             out.write(Integer.toString(highScore) + " ");
             out.write(Integer.toString(cherryScore));
         }catch(Exception e){
@@ -422,7 +400,6 @@ public class StickHeroController implements Controller,Runnable {
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
     @FXML
     public void endScene() throws IOException{
@@ -466,20 +443,20 @@ public class StickHeroController implements Controller,Runnable {
         ((Stage) myScore.getScene().getWindow()).close();
     }
     public void makeCherry(){
-        System.out.println("cherry created");
+//        System.out.println("cherry created");
         Random random = new Random();
         cherry = new Cherry();
         Basket.add(cherry);
         cherry.setFitHeight(30);
         cherry.setFitWidth(30);
         // 30 is cherry width
-        int min = (int) (10 + rectangles.get(curr_rectangle-1).getWidth() + 30);
+        int min = (int) (10 + rectangles.get(curr_rectangle - 1).getWidth() + 30);
         int max = 300 - 30 - 30;
         int range = max-min;
         cherry.setX(min + random.nextInt(range));
-        System.out.println("cherry coordinate: "+ cherry.getX());
+//        System.out.println("cherry coordinate: "+ cherry.getX());
         // sets cherry below stick
-        System.out.println("down");
+//        System.out.println("down");
         cherry.setY(456+10);
 
         G1.getChildren().add(cherry);
@@ -558,7 +535,7 @@ public class StickHeroController implements Controller,Runnable {
         try{
             in = new Scanner(new BufferedReader(new FileReader("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt")));
             if (in.hasNext()){
-                System.out.println("File read");
+//                System.out.println("File read");
                 highScore = Integer.parseInt(in.next());
                 cherryScore = Integer.parseInt(in.next());
             }
@@ -675,8 +652,8 @@ public class StickHeroController implements Controller,Runnable {
         stick.setHeight(1);
         stick.setY(455);
         stick.setX(58 + rectangles.get(0).getWidth() / 2);
-        System.out.println("Initial x:" + stick.getX());
-        System.out.println("Initial y:" + stick.getY());
+//        System.out.println("Initial x:" + stick.getX());
+//        System.out.println("Initial y:" + stick.getY());
         G1.getChildren().add(stick);
 
         ((Pane) newSceneRoot).getChildren().add(G1);
@@ -731,6 +708,8 @@ public class StickHeroController implements Controller,Runnable {
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setWidth(600);
+        stage.setHeight(630);
         StickHeroApplication.openStages.add(stage);
         // Create a new scene for fade-out transition
         Scene oldScene = stage.getScene();

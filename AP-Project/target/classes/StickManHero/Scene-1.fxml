@@ -9,22 +9,22 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" onMousePressed="#clickMouse" onMouseReleased="#unClickMouse" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StickManHero.StickHeroController">
    <children>
-      <ImageView blendMode="SRC_ATOP" fitHeight="661.0" fitWidth="3800.0" layoutX="6.0" layoutY="45.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleY="2.0">
+      <ImageView blendMode="SRC_ATOP" fitHeight="661.0" fitWidth="3800.0" layoutX="-91.0" layoutY="35.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleY="2.0">
          <image>
             <Image url="@../background.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="myCherry" layoutX="734.0" layoutY="68.0" prefHeight="74.0" prefWidth="142.0" text=" Score: -" textAlignment="CENTER">
+      <Label fx:id="myCherry" layoutX="362.0" layoutY="37.0" prefHeight="74.0" prefWidth="142.0" text=" Score: -" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="44.0" fitWidth="67.0" layoutX="676.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="44.0" fitWidth="67.0" layoutX="307.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../cherry.png" />
          </image>
       </ImageView>
-      <Button fx:id="heroButton" layoutX="395.0" layoutY="20.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="110.0" text="-" textAlignment="JUSTIFY" wrapText="true">
+      <Button fx:id="heroButton" layoutX="134.0" layoutY="37.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="85.0" text="-" textAlignment="JUSTIFY" wrapText="true">
          <font>
             <Font name="Arial" size="34.0" />
          </font></Button>

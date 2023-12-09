@@ -21,6 +21,8 @@ public class StickHeroApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(StickHeroApplication.class.getResource("StickHero.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("StickHero Game");
+        stage.setWidth(600);
+        stage.setHeight(630);
         openStages.add(stage);
 
         // Added Icon for the Application
