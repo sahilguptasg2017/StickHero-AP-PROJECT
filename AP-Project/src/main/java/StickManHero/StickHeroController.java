@@ -343,7 +343,7 @@ public class StickHeroController implements Controller,Runnable {
 //            heroButton.setText(Integer.toString(heroScore));
         }
     }
-    public static final int reviveCherries = 2;
+    public static final int reviveCherries = 5;
 
     public void setHeroScore(int score){
         heroButton.setText(Integer.toString(score));
