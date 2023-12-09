@@ -1,4 +1,4 @@
 package StickManHero;
 
-public @interface Test {
+public interface Test {
 }

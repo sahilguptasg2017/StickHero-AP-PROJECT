@@ -708,6 +708,8 @@ public class StickHeroController implements Controller,Runnable {
 
         // Get the current stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setWidth(600);
+        stage.setHeight(630);
         StickHeroApplication.openStages.add(stage);
         // Create a new scene for fade-out transition
         Scene oldScene = stage.getScene();
