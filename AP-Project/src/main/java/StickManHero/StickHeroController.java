@@ -85,7 +85,9 @@ public class StickHeroController implements Controller,Runnable {
     private static Media media ;
     private static MediaPlayer mediaPlayer ;
     private static Media media_1 ;
+    private static Media media_2 ;
     private static MediaPlayer mediaPlayer_1 ;
+    private static MediaPlayer mediaPlayer_2 ;
     private static Group G1 ;
     public static Hero h0 ;
     public static ImageView h1;
@@ -386,6 +388,15 @@ public class StickHeroController implements Controller,Runnable {
         PauseTransition pause = new PauseTransition(Duration.millis(5000));
         ParallelTransition seqT = new ParallelTransition (h1, translate, rotate, pause);
         seqT.play();
+        String path_1 = "AP-Project\\src\\main\\java\\StickManHero\\death.mp3";
+
+        media_2 = new Media(new File(path_1).toURI().toString());
+
+        // Instantiating MediaPlayer class
+        mediaPlayer_2 = new MediaPlayer(media_2);
+
+        // by setting this property to true, the audio will be played
+        mediaPlayer_2.setAutoPlay(true);
         // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
         BufferedWriter out = new BufferedWriter(new FileWriter("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
@@ -411,6 +422,7 @@ public class StickHeroController implements Controller,Runnable {
         }catch(Exception e){
             e.printStackTrace();
         }
+
     }
     @FXML
     public void endScene() throws IOException{
