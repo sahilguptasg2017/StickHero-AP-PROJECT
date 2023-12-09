@@ -28,7 +28,9 @@ import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -247,7 +249,11 @@ public class StickHeroController implements Controller,Runnable {
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->{
                 System.out.println(h1.getX());
-                GameOver();
+                try {
+                    GameOver();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 System.out.println(h1.getX());
 
 //                fallStick();
@@ -274,7 +280,11 @@ public class StickHeroController implements Controller,Runnable {
                 System.out.println(h1.getX());
 
                 if (isFlipped){
-                    GameOver();
+                    try {
+                        GameOver();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }else{
                     onTower = 1;
 //                    transitions();
@@ -339,12 +349,6 @@ public class StickHeroController implements Controller,Runnable {
 //            heroButton.setText(Integer.toString(heroScore));
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Additional initialization code...
-        // Accessing FXML components can be safely done here
-    }
     public static final int reviveCherries = 2;
 
 //    public void initialize(){
@@ -388,7 +392,7 @@ public class StickHeroController implements Controller,Runnable {
         }
 
     }
-    public void GameOver(){
+    public void GameOver() throws IOException {
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         translate.setToY(300f);
         translate.setAutoReverse(true);
@@ -399,7 +403,16 @@ public class StickHeroController implements Controller,Runnable {
         seqT.play();
         // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
-
+        BufferedWriter out = new BufferedWriter(new FileWriter("C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
+        try{
+            System.out.println("Score written");
+            out.write(highScore);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }finally {
+            if (out!= null) out.close();
+        }
         try{
 //            Score.setText("Score : 0");
             // Update UI components on the JavaFX Application Thread
