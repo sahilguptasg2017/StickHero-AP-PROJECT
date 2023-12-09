@@ -398,7 +398,7 @@ public class StickHeroController implements Controller,Runnable {
         seqT.play();
         // we can also make a new label and enable its visibility when the player makes a new high score
         if (heroScore > highScore) highScore = heroScore;
-        BufferedWriter out = new BufferedWriter(new FileWriter("C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
+        BufferedWriter out = new BufferedWriter(new FileWriter("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt"));
         try{
             System.out.println("Score written");
             out.write(Integer.toString(highScore) + " ");
@@ -552,12 +552,21 @@ public class StickHeroController implements Controller,Runnable {
 
     @FXML
     public void onStartButtonClick(ActionEvent event) throws IOException {
-        Scanner in = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Asus\\IdeaProjects\\StickHero-AP-PROJECT\\AP-Project\\src\\main\\java\\StickManHero\\GameState.txt")));
-        if (in.hasNext()){
-            System.out.println("File read");
-            highScore = Integer.parseInt(in.next());
-            cherryScore = Integer.parseInt(in.next());
+        Scanner in = null;
+        try{
+            in = new Scanner(new BufferedReader(new FileReader("AP-Project\\src\\main\\java\\StickManHero\\GameState.txt")));
+            if (in.hasNext()){
+                System.out.println("File read");
+                highScore = Integer.parseInt(in.next());
+                cherryScore = Integer.parseInt(in.next());
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }finally {
+            if (in!=null) in.close();
         }
+
 
         String path = "AP-Project\\src\\main\\java\\StickManHero\\sound_1.mp3";
 
