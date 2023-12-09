@@ -74,6 +74,9 @@ public class Towers extends Rectangle {
     public int getY(int y){
         return (int)super.getY();
     }
+    public int getWidth(int x){
+        return (int)super.getWidth();
+    }
 
 //    public static void main(String[] args) {
 //        launch();

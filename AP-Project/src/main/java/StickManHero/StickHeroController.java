@@ -159,15 +159,10 @@ public class StickHeroController implements Controller,Runnable {
     }
     private boolean isKeyPressed = false;
 
-    private int mouseClickable = 1;
-    private int mouseUnClickable = 1;
-
     @FXML
     public void clickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = true;
-        if (mouseClickable == 1){
-            increaseStickSize();
-        }
+        increaseStickSize();
         // Call a method to increase the size of the stick
         // Note-- Max length of the stick can be 440 so that hero will never go to third tower
         // update this
@@ -196,7 +191,6 @@ public class StickHeroController implements Controller,Runnable {
     public void unClickMouse(javafx.scene.input.MouseEvent event) {
         isMousePressed = false;
         // Stop the timeline to prevent further growth
-        if (mouseUnClickable == 1){
             if (timeline != null) {
                 timeline.stop();
             }
@@ -211,7 +205,6 @@ public class StickHeroController implements Controller,Runnable {
             });
             pause.play();
         }
-    }
     @Override
     public void run() {
 //        System.out.println(Thread.currentThread().getId());
@@ -240,6 +233,8 @@ public class StickHeroController implements Controller,Runnable {
 
     public void move(){
         curr_rectangle ++ ;
+
+        // code for Towers
         double x1 = rectangles.get(curr_rectangle - 1).getX();
         double w1 = rectangles.get(curr_rectangle - 1).getWidth();
         double x2 = rectangles.get(curr_rectangle).getX() ;
@@ -248,7 +243,6 @@ public class StickHeroController implements Controller,Runnable {
         StickHeroController myRunnable = new StickHeroController();
 
         Thread moveAll = new Thread(myRunnable,"move");
-        Thread removeCherry = new Thread(myRunnable,"delete");
         // 3 is stick(rectangle) width
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             keyEnabler = 0;
@@ -644,8 +638,6 @@ public class StickHeroController implements Controller,Runnable {
 
     @FXML
     public void game_maker() {
-        mouseClickable = 1;
-        mouseUnClickable = 1;
         rectangles = new ArrayList<>();
         isFlipped = false;
         keyEnabler = 1;
