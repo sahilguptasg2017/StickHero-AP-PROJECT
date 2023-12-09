@@ -413,8 +413,8 @@ public class StickHeroController implements Controller,Runnable {
 //            Score.setText("Score : 0");
             // Update UI components on the JavaFX Application Thread
             Platform.runLater(() -> {
-                setHeroScore(heroScore);
-//                myCherry.setText("0");
+                heroButton.setText("-");
+                myCherry.setText("-");
             });
 //            setCherryScore(cherryScore);
             endScene();
