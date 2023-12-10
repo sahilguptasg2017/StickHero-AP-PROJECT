@@ -169,7 +169,7 @@ public class StickHeroController implements Controller,Runnable {
     public void keyPressed(javafx.scene.input.KeyEvent event){
         isKeyPressed = true;
         if (event.getCode() == KeyCode.SPACE) {
-            System.out.println("yes");
+         //   System.out.println("yes");
             if (keyEnabler==1 && onTower == 0){
                 if(!isFlipped){
                     h1.setY(h1.getY() + 53);
@@ -226,10 +226,10 @@ public class StickHeroController implements Controller,Runnable {
 
         if (x2 > x1+w1+(l-3) || x2 + w2 < x1+w1+(l-3)){
             double heronewX = l + 20;
-            TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1500),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(endEvent->{
-                System.out.println(h1.getX());
+          //      System.out.println(h1.getX());
                 try {
                     GameOver();
                 } catch (IOException e) {
@@ -247,7 +247,7 @@ public class StickHeroController implements Controller,Runnable {
 
         //removed useless factor of rectangles.get(curr_rectangle),getWidth() in both forward and backward movement
             double heronewX = 300 - rectangles.get(curr_rectangle - 1).getWidth() ;
-            TranslateTransition move_hero = new TranslateTransition(Duration.millis(2000),h1) ;
+            TranslateTransition move_hero = new TranslateTransition(Duration.millis(1800),h1) ;
             move_hero.setByX(heronewX);
             move_hero.setOnFinished(event1->{
                 // Prints location of the hero
@@ -270,7 +270,7 @@ public class StickHeroController implements Controller,Runnable {
                         e.printStackTrace();
                     }
                     Platform.runLater(() ->{
-                        PauseTransition pause = new PauseTransition(Duration.millis(300));
+                        PauseTransition pause = new PauseTransition(Duration.millis(500));
                         pause.setOnFinished(afterPause->{
                             makeNewStick();
                             Random random = new Random();

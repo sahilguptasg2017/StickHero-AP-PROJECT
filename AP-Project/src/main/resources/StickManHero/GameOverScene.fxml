@@ -1,26 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StickManHero.GameOverController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="400.0" opacity="0.08" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="400.0" fitWidth="400.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gameover.png" />
          </image>
       </ImageView>
       <Button layoutX="58.0" layoutY="292.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="46.0" prefWidth="52.0" text="Home" textFill="#2cb25b" />
       <Button layoutX="165.0" layoutY="292.0" mnemonicParsing="false" onAction="#PlayAgain" prefHeight="46.0" prefWidth="74.0" text="Play Again" textFill="#4704a4" />
-      <Label fx:id="myScore" layoutX="184.0" layoutY="47.0" text="SCORE" textFill="#e80606" />
-      <Label layoutX="187.0" layoutY="112.0" text="BEST" textFill="#ff0095" />
-      <Label fx:id="gameOverScoreLabel" layoutX="186.0" layoutY="77.0" text="Label" textFill="#eb0e0e" />
-      <Label fx:id="gameHighScoreLabel" layoutX="186.0" layoutY="145.0" text="Label" textFill="#ff00bf" />
-      <Label fx:id="CherryScoreLabel" layoutX="182.0" layoutY="200.0" text="Cherry" textFill="#ee0000" />
-      <Button layoutX="286.0" layoutY="292.0" mnemonicParsing="false" onAction="#revive" prefHeight="46.0" prefWidth="63.0" text="Revive" textFill="#f2a500" />
-      <Label fx:id="reviveMessageLabel" layoutX="124.0" layoutY="240.0" prefHeight="18.0" prefWidth="156.0" text="Revive Hero using Cherries" textFill="#34b2ae" />
+      <Label fx:id="myScore" layoutX="165.0" layoutY="31.0" text="SCORE" underline="true">
+         <font>
+            <Font name="Arial" size="21.0" />
+         </font></Label>
+      <Label layoutX="173.0" layoutY="112.0" text="BEST" underline="true">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font></Label>
+      <Label fx:id="gameOverScoreLabel" layoutX="177.0" layoutY="69.0" text="Label">
+         <font>
+            <Font name="Arial Bold" size="19.0" />
+         </font></Label>
+      <Label fx:id="gameHighScoreLabel" layoutX="177.0" layoutY="146.0" text="Label">
+         <font>
+            <Font name="Arial Bold" size="19.0" />
+         </font></Label>
+      <Label fx:id="CherryScoreLabel" layoutX="165.0" layoutY="193.0" prefHeight="26.0" prefWidth="147.0" text="Cherry" wrapText="true">
+         <font>
+            <Font name="Arial Bold" size="19.0" />
+         </font></Label>
+      <Button layoutX="286.0" layoutY="292.0" mnemonicParsing="false" onAction="#revive" prefHeight="46.0" prefWidth="63.0" text="Revive" textFill="#f2a500">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Button>
+      <Label fx:id="reviveMessageLabel" layoutX="108.0" layoutY="234.0" prefHeight="25.0" prefWidth="189.0" text="Revive Hero using Cherries">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font></Label>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>
