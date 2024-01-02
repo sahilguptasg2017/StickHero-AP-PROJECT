@@ -55,6 +55,6 @@ Multithreading has been incorporated for moving the hero and the towers, enhanci
 Execute the JUnit tests to validate the functionality and correctness of the game.
 ## Explore the Game
 
-For a complete gaming experience with animations and sound effects, run the game! Visit the GitHub repository for the latest updates and contributions.
+For a complete gaming experience with animations and sound effects, run the game!
 
 Enjoy playing StickHero! 🎮
