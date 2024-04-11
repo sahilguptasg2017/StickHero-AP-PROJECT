@@ -7,7 +7,7 @@ Welcome to the StickHero game repository! This project is a collaborative effort
 
     Sahil Gupta (Roll Number: 2022430)
     Vashu (Roll Number: 2022606)
-    ![startPage](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/5ff7ff2d-9956-4906-afe1-b379219ce2a3)
+![startPage](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/5ff7ff2d-9956-4906-afe1-b379219ce2a3)
 
 ## Controls
 ![growingStick](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/3d8eeb1a-6af5-44e9-a8ba-7ab914bc314d)
