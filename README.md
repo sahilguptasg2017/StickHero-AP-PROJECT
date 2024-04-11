@@ -11,6 +11,7 @@ Welcome to the StickHero game repository! This project is a collaborative effort
 
 ## Controls
 ![growingStick](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/3d8eeb1a-6af5-44e9-a8ba-7ab914bc314d)
+
     Mouse Click: Press and hold the mouse click to increase the length of the stick continuously.
     Spacebar: Use the spacebar to flip the stickman and collect cherries.
 
@@ -37,14 +38,14 @@ Ensure that your system has Maven dependency for JUnit. Follow these steps:
         Multiple pillars of different widths for added challenge.
         Reviving feature with cherry count deduction for revival.
         Ensure the stick length lands on the next platform to prevent falling.
-    ![rotatingStick](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/ae214aa2-14c5-4156-97bb-90118e41f71a)
-     ![MovingHero](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/b4cef7b1-9f25-4d2f-a473-74c503653c46)
+![rotatingStick](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/ae214aa2-14c5-4156-97bb-90118e41f71a)
+![MovingHero](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/b4cef7b1-9f25-4d2f-a473-74c503653c46)
     
 
     Scoring System:
         Display last score, highest score, and total cherries collected.
         Animations and sound effects enhance the gaming experience.
-   ![GameOverPage](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/20e00a03-71c4-499b-b2eb-1dd7b058c0cc)
+![GameOverPage](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/20e00a03-71c4-499b-b2eb-1dd7b058c0cc)
 
     Design Patterns:
         Singleton Design Pattern: Implemented in the Hero class, ensuring only one instance of the hero in the game.
