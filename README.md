@@ -1,5 +1,6 @@
 ### StickHero Game Repository
 ## Overview
+![HomePage](https://github.com/sahilguptasg2017/StickHero-AP-PROJECT/assets/132465692/c9574018-22a1-4bd2-8804-c09c391a483a)
 
 Welcome to the StickHero game repository! This project is a collaborative effort by Sahil Gupta and Vashu, showcasing their skills in Java programming and object-oriented design. The game is an implementation of the popular Stick Hero game, allowing players to control a stickman hero, move between platforms, and collect cherries to score points.
 ## Group Members
